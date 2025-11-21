@@ -54,7 +54,6 @@ export const translations = {
     location: 'Ubicación',
     transmission: 'Transmisión',
     automatic: 'Automático',
-    getDirections: 'Obtener Direcciones',
   },
   en: {
     title: 'Luxury House in Villa de Leyva',

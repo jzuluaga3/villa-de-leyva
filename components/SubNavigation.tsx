@@ -22,6 +22,9 @@ export function SubNavigation({ items }: SubNavigationProps) {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Ensure we're in the browser and elements exist
+      if (typeof window === 'undefined') return;
+      
       // Find active section based on scroll position
       const sections = items.map((item) => {
         const element = document.getElementById(item.id);
@@ -34,6 +37,8 @@ export function SubNavigation({ items }: SubNavigationProps) {
           height: rect.height,
         };
       }).filter(Boolean) as Array<{ id: string; top: number; bottom: number; height: number }>;
+      
+      if (sections.length === 0) return;
 
       const navOffset = 200; // Offset for sticky nav height
       const currentScroll = window.scrollY + navOffset;

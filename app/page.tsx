@@ -36,7 +36,7 @@ export default function Home() {
     <>
       <SubNavigation items={subNavItems} />
       <Hero />
-      <section id="trip-info" className="py-16 px-4">
+      <section id="trip-info" className="pt-16 pb-8 md:py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className={`grid grid-cols-1 gap-6 ${showCountdown ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
             <TripInfo />
