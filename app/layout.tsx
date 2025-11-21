@@ -8,7 +8,7 @@ import { I18nProvider } from '@/lib/i18n-context';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Casa de Lujo en Villa de Leyva',
+  title: 'Viaje a Villa de Leyva',
   description: 'Información del viaje familiar de Año Nuevo a Villa de Leyva, Colombia',
   icons: {
     icon: '/icon.jpg',
