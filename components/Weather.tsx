@@ -18,41 +18,73 @@ export function Weather() {
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isTripWeather, setIsTripWeather] = useState(false);
 
   useEffect(() => {
     async function fetchWeather() {
       try {
-        // Try to fetch weather for the trip dates first
-        const url = 'https://api.open-meteo.com/v1/forecast?latitude=5.6344&longitude=-73.5264&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Bogota&start_date=2025-12-30&end_date=2026-01-02';
+        // Check if trip dates are in the allowed range
+        // API allows dates from 2025-08-20 to 2025-12-06
+        const tripStartDate = new Date('2025-12-30');
+        const maxAllowedDate = new Date('2025-12-06');
         
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Failed to fetch weather');
+        const canFetchTripWeather = tripStartDate <= maxAllowedDate;
 
-        const data = await response.json();
+        if (canFetchTripWeather) {
+          // Try to fetch weather for the trip dates first
+          const tripUrl = 'https://api.open-meteo.com/v1/forecast?latitude=5.6344&longitude=-73.5264&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Bogota&start_date=2025-12-30&end_date=2026-01-02';
+          
+          try {
+            const response = await fetch(tripUrl);
+            const data = await response.json();
+            
+            // Check if API returned an error in the response (even if status is 200)
+            if (data.error || !response.ok) {
+              const errorMessage = data.reason || data.error || 'Date range error';
+              if (errorMessage.includes('out of allowed range') || !response.ok) {
+                throw new Error('Date range error');
+              }
+            }
+            
+            if (data.daily && data.daily.time) {
+              const forecast: WeatherData[] = data.daily.time.map((date: string, index: number) => ({
+                date,
+                maxTemp: data.daily.temperature_2m_max[index],
+                minTemp: data.daily.temperature_2m_min[index],
+                weatherCode: data.daily.weathercode[index],
+              }));
+              setWeatherData(forecast);
+              setIsTripWeather(true);
+              setLoading(false);
+              return;
+            }
+          } catch (tripError: any) {
+            // If trip weather fails (especially date range errors), fall through to current weather
+            console.log('Trip weather not available, using current weather:', tripError.message);
+          }
+        }
+
+        // Fallback: get current weather forecast
+        const currentUrl = 'https://api.open-meteo.com/v1/forecast?latitude=5.6344&longitude=-73.5264&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Bogota&forecast_days=4';
+        const fallbackResponse = await fetch(currentUrl);
         
-        if (data.daily && data.daily.time) {
-          const forecast: WeatherData[] = data.daily.time.map((date: string, index: number) => ({
+        if (!fallbackResponse.ok) {
+          throw new Error('Failed to fetch current weather');
+        }
+        
+        const fallbackData = await fallbackResponse.json();
+        
+        if (fallbackData.daily && fallbackData.daily.time) {
+          const forecast: WeatherData[] = fallbackData.daily.time.map((date: string, index: number) => ({
             date,
-            maxTemp: data.daily.temperature_2m_max[index],
-            minTemp: data.daily.temperature_2m_min[index],
-            weatherCode: data.daily.weathercode[index],
+            maxTemp: fallbackData.daily.temperature_2m_max[index],
+            minTemp: fallbackData.daily.temperature_2m_min[index],
+            weatherCode: fallbackData.daily.weathercode[index],
           }));
           setWeatherData(forecast);
+          setIsTripWeather(false);
         } else {
-          // Fallback: try to get current weather
-          const currentUrl = 'https://api.open-meteo.com/v1/forecast?latitude=5.6344&longitude=-73.5264&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Bogota&forecast_days=4';
-          const fallbackResponse = await fetch(currentUrl);
-          const fallbackData = await fallbackResponse.json();
-          
-          if (fallbackData.daily && fallbackData.daily.time) {
-            const forecast: WeatherData[] = fallbackData.daily.time.map((date: string, index: number) => ({
-              date,
-              maxTemp: fallbackData.daily.temperature_2m_max[index],
-              minTemp: fallbackData.daily.temperature_2m_min[index],
-              weatherCode: fallbackData.daily.weathercode[index],
-            }));
-            setWeatherData(forecast);
-          }
+          throw new Error('No weather data in response');
         }
       } catch (err) {
         setError('Unable to load weather data');
@@ -109,10 +141,13 @@ export function Weather() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold text-text-primary text-center">
-            {getTranslation(lang, 'weather')}
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-semibold text-text-primary mb-2">
+            {isTripWeather ? getTranslation(lang, 'tripWeather') : getTranslation(lang, 'currentWeather')} - Villa de Leyva
           </h2>
+          <p className="text-sm text-text-secondary">
+            {isTripWeather ? getTranslation(lang, 'tripWeatherSubtitle') : getTranslation(lang, 'currentWeatherSubtitle')}
+          </p>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">

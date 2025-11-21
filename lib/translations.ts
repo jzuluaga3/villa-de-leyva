@@ -43,6 +43,10 @@ export const translations = {
     friday: 'Viernes',
     december: 'Diciembre',
     january: 'Enero',
+    tripWeather: 'Clima del Viaje',
+    currentWeather: 'Clima Actual',
+    tripWeatherSubtitle: 'Pronóstico para las fechas del viaje en Villa de Leyva',
+    currentWeatherSubtitle: 'Pronóstico actual del clima en Villa de Leyva',
   },
   en: {
     title: 'Luxury House in Villa de Leyva',
@@ -86,6 +90,10 @@ export const translations = {
     friday: 'Friday',
     december: 'December',
     january: 'January',
+    tripWeather: 'Trip Weather',
+    currentWeather: 'Current Weather',
+    tripWeatherSubtitle: 'Forecast for trip dates in Villa de Leyva',
+    currentWeatherSubtitle: 'Current weather forecast in Villa de Leyva',
   },
 } as const;
 
