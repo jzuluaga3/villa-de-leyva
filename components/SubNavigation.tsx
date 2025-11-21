@@ -21,58 +21,97 @@ export function SubNavigation({ items }: SubNavigationProps) {
   const { lang } = useI18n();
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const sections = items.map((item) => {
+      const element = document.getElementById(item.id);
+      return element ? { id: item.id, element } : null;
+    }).filter(Boolean) as Array<{ id: string; element: HTMLElement }>;
+
+    if (sections.length === 0) return;
+
     const handleScroll = () => {
-      // Ensure we're in the browser and elements exist
-      if (typeof window === 'undefined') return;
-      
-      // Find active section based on scroll position
-      const sections = items.map((item) => {
-        const element = document.getElementById(item.id);
-        if (!element) return null;
-        const rect = element.getBoundingClientRect();
-        return {
-          id: item.id,
-          top: rect.top + window.scrollY,
-          bottom: rect.bottom + window.scrollY,
-          height: rect.height,
-        };
-      }).filter(Boolean) as Array<{ id: string; top: number; bottom: number; height: number }>;
-      
-      if (sections.length === 0) return;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const isAtBottom = scrollY + windowHeight >= documentHeight - 50;
 
-      const navOffset = 200; // Offset for sticky nav height
-      const currentScroll = window.scrollY + navOffset;
+      // If at bottom, always select last section
+      if (isAtBottom) {
+        setActiveSection(sections[sections.length - 1].id);
+        return;
+      }
 
-      // Find the section we're currently in
+      // Find the section that's currently most visible
+      const navOffset = 200;
+      const viewportTop = scrollY + navOffset;
+      
       let activeId = '';
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        if (currentScroll >= section.top - navOffset && currentScroll < section.bottom) {
-          activeId = section.id;
-          break;
+      let maxIntersection = 0;
+
+      for (const { id, element } of sections) {
+        const rect = element.getBoundingClientRect();
+        const elementTop = rect.top + scrollY;
+        const elementBottom = rect.bottom + scrollY;
+        
+        // Calculate intersection with viewport (accounting for nav offset)
+        const intersectionTop = Math.max(elementTop, viewportTop);
+        const intersectionBottom = Math.min(elementBottom, scrollY + windowHeight);
+        const intersection = Math.max(0, intersectionBottom - intersectionTop);
+        
+        // If this section intersects significantly with the viewport
+        if (intersection > 100 || (rect.top <= navOffset && rect.bottom > navOffset)) {
+          if (intersection > maxIntersection) {
+            maxIntersection = intersection;
+            activeId = id;
+          }
         }
       }
 
-      // If we're past all sections, highlight the last one
-      if (!activeId && sections.length > 0) {
+      // Fallback: if no intersection found, find closest section
+      if (!activeId) {
+        let closestId = sections[0].id;
+        let minDistance = Infinity;
+
+        for (const { id, element } of sections) {
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top + scrollY;
+          const distance = Math.abs(viewportTop - elementTop);
+          
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestId = id;
+          }
+        }
+
+        // If we're past the last section, use the last one
         const lastSection = sections[sections.length - 1];
-        if (currentScroll >= lastSection.top) {
+        const lastRect = lastSection.element.getBoundingClientRect();
+        if (scrollY + windowHeight > lastRect.bottom + scrollY) {
           activeId = lastSection.id;
+        } else {
+          activeId = closestId;
         }
-      }
-
-      // If we're before all sections, highlight the first one
-      if (!activeId && sections.length > 0) {
-        activeId = sections[0].id;
       }
 
       setActiveSection(activeId);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Also check on scroll end to catch bottom-of-page case
+    let scrollTimeout: NodeJS.Timeout;
+    const handleScrollWithDebounce = () => {
+      handleScroll();
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(handleScroll, 150);
+    };
+
+    window.addEventListener('scroll', handleScrollWithDebounce, { passive: true });
     handleScroll(); // Initial check
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScrollWithDebounce);
+      clearTimeout(scrollTimeout);
+    };
   }, [items, pathname]);
 
   const handleClick = (id: string, e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -100,9 +139,9 @@ export function SubNavigation({ items }: SubNavigationProps) {
               href={`${pathname}#${item.id}`}
               onClick={(e) => handleClick(item.id, e)}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all duration-200',
+                'px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all duration-200 cursor-pointer',
                 activeSection === item.id
-                  ? 'bg-primary text-white shadow-sm'
+                  ? 'bg-primary text-white shadow-sm hover:bg-primary/90'
                   : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'
               )}
             >
