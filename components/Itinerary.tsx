@@ -194,9 +194,9 @@ export function Itinerary() {
                           
                           {/* Content */}
                           <div className="flex-1 ml-4 md:ml-6">
-                            <div className="flex items-start gap-3 flex-wrap">
+                            <div className="flex items-start gap-3 flex-wrap md:flex-nowrap">
                               {event.time && (
-                                <span className="font-semibold text-text-primary text-sm tracking-wide">
+                                <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap">
                                   {event.time}
                                 </span>
                               )}
@@ -216,16 +216,17 @@ export function Itinerary() {
                               ) : hasFlight ? (
                                 <button
                                   onClick={() => toggleFlight(eventId)}
-                                  className="flex items-start gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left"
+                                  className="flex items-start md:items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors flex-wrap md:flex-nowrap w-full text-left"
                                 >
-                                  <Plane className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                                  <div className="flex-1 min-w-0">
-                                    {(() => {
-                                      const parts = event.description.split(' - ');
-                                      const flightType = parts[0];
-                                      const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
-                                      return (
-                                        <>
+                                  <Plane className="w-4 h-4 flex-shrink-0 md:mt-0 mt-0.5" />
+                                  {(() => {
+                                    const parts = event.description.split(' - ');
+                                    const flightType = parts[0];
+                                    const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
+                                    return (
+                                      <>
+                                        {/* Mobile: Split layout */}
+                                        <div className="md:hidden flex-1 min-w-0">
                                           <div className="flex items-center gap-2 flex-wrap">
                                             <span className="font-semibold break-words">{flightType}</span>
                                             {isFlightExpanded ? (
@@ -239,10 +240,19 @@ export function Itinerary() {
                                               <span className="font-semibold break-words">{passengers}</span>
                                             </div>
                                           )}
-                                        </>
-                                      );
-                                    })()}
-                                  </div>
+                                        </div>
+                                        {/* Desktop: Single line like rental car */}
+                                        <span className="hidden md:inline font-semibold break-words min-w-0 flex-1">{event.description}</span>
+                                        <span className="hidden md:inline">
+                                          {isFlightExpanded ? (
+                                            <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                          ) : (
+                                            <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                          )}
+                                        </span>
+                                      </>
+                                    );
+                                  })()}
                                 </button>
                               ) : (
                                 <span className="text-text-primary text-base leading-relaxed">
