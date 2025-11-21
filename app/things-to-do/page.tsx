@@ -101,30 +101,45 @@ export default function ThingsToDo() {
         descriptionEs: 'La plaza de adoquines más grande de Colombia. Centro histórico.',
         descriptionEn: "Colombia's largest cobblestone plaza. Historic center.",
         link: 'https://www.google.com/maps/search/?api=1&query=Plaza+Mayor+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyEyQN_wW0YBY4HNxX0EJTV9eEQm4JwRMCJEGrTpfuB9uq_MQg9bvfcZ4x31TU3q_lka3aYZzr0K9ka3o1lKzU-n7dvMwu5UdahVL-SqQwn9354Xv3NLu1vap2tVcBktl4XZ1wfJFTUV-B_=w408-h306-k-no',
+        ],
       },
       {
         name: 'Museo El Fósil',
         descriptionEs: 'Fósil de Kronosaurus de 120 millones de años. 10 min en carro.',
         descriptionEn: '120-million-year-old Kronosaurus fossil. 10 min drive.',
         link: 'https://www.google.com/maps/search/?api=1&query=Museo+El+Fossil+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxLyVlThIgi-0MyzdgHf7C9FrNF2CuOEel-hS9TBirahvwpeTyk-KQcEavQ2ThSVEH07UsWSRGwDzcP_5muMA8W4ojTYv9bH4yAEwmMaJCUBlLTp-z5ZGdH8u6oycSiofYYg3faAQ=w408-h302-k-no',
+        ],
       },
       {
         name: 'Casa Terracota',
         descriptionEs: 'Casa de barro más grande del mundo. 20-25 min a pie.',
         descriptionEn: "World's largest pottery piece. 20-25 min walk.",
         link: 'https://www.google.com/maps/search/?api=1&query=Casa+Terracota+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwizL0atxHqDM5pozHnVByD2MOVlnGt-9VkOqnFdhBikvvOoyFpG9ra_dZwk83TNFLIUBgg9voox3DD9l51R3DCyxPES_tlRFraPwuAtuN0m8m0DbHJwox2qbes_bK3eFaZy0PO=w408-h306-k-no',
+        ],
       },
       {
         name: 'Museo del Carmen',
         descriptionEs: 'Uno de los mejores museos de arte religioso de Colombia.',
         descriptionEn: "One of Colombia's best religious art museums.",
         link: 'https://www.google.com/maps/search/?api=1&query=Museo+del+Carmen+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxg9qp_Zewjorh7iaahNtO6rt5z5dAuVCO6Lexn4D_VHu5w80u5sqaXOVzfU0ME3VqSWT1a5maHT6vIngV2GPGoYu-KEfpq1BNgyzPcDmZ-JAsNS8KNMCugX-VKFqQPH8f9w70=w408-h306-k-no',
+        ],
       },
       {
         name: 'Casa Museo Antonio Nariño',
         descriptionEs: 'Hogar del héroe de la independencia. Entrada gratuita.',
         descriptionEn: "Independence hero's home. Free entry.",
         link: 'https://www.google.com/maps/search/?api=1&query=Casa+Museo+Antonio+Narino+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/p/AF1QipOxA83NFItfVXz9hTfFiKJKhAiC9mRBD7A_HERK=w408-h306-k-no',
+        ],
       },
     ],
     nature: [
@@ -133,12 +148,18 @@ export default function ThingsToDo() {
         descriptionEs: 'Pozos azules vibrantes. 5 min en carro.',
         descriptionEn: 'Vibrant blue pools. 5 min drive.',
         link: 'https://www.google.com/maps/search/?api=1&query=Pozos+Azules+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSw4HfeZaeH72-FmKkV8Mn9JEXZXQ74FzMJY0ai4RdueXBJBy3rFb6gXiGjUeOvr1vZbUrgvFc9rZSKKK660amLl8N4c8IQwhajVic84PdyLxxds5CEay50HuuOGlcehXjuXZS2RkcvhmxKB=w408-h307-k-no',
+        ],
       },
       {
         name: 'Wine Tasting - Viñedo Ain Karim',
         descriptionEs: 'Viñedo galardonado. Tours con degustación de vinos.',
         descriptionEn: 'Award-winning vineyard. Tours with wine tasting.',
         link: 'https://www.google.com/maps/search/?api=1&query=Vinedo+Ain+Karim+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/p/AF1QipOfkTaAJuX3-pE-sMP5iZ7auZVs7qA-BP1xNGgc=w408-h272-k-no',
+        ],
       },
       {
         name: 'Horseback Riding',
@@ -146,6 +167,9 @@ export default function ThingsToDo() {
         descriptionEn: 'Horseback tours through countryside and Blue Wells.',
         link: 'https://www.google.com/search?q=horseback+riding+tours+Villa+de+Leyva',
         linkType: 'search' as const,
+        images: [
+          'https://www.civitatis.com/f/colombia/villa-de-leyva/galeria/disfrutando-paseo-caballo-lagos.jpg',
+        ],
       },
       {
         name: 'Hiking - La Periquera Waterfalls',
@@ -153,6 +177,9 @@ export default function ThingsToDo() {
         descriptionEn: 'Ecological park with waterfalls and oak forests.',
         link: 'https://www.google.com/search?q=La+Periquera+Waterfalls+Villa+de+Leyva',
         linkType: 'search' as const,
+        images: [
+          'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwHidAlI3VIeXWALHetN9jfV9LTShjYqMbZwmHTFGPkYhGktwPHR6zBIxDa--tva1LeODT8dAv3ska9cxGnqUxYlPbK33oaO2o7ZfLh9NL74u5rohVam0CnVtUpHwzxW9dbq611=s1360-w1360-h1020-rw',
+        ],
       },
       {
         name: 'ATV/Quad Tours',
@@ -160,6 +187,9 @@ export default function ThingsToDo() {
         descriptionEn: 'ATV tours through Colombian desert landscape.',
         link: 'https://www.google.com/search?q=ATV+quad+tours+Villa+de+Leyva',
         linkType: 'search' as const,
+        images: [
+          'https://www.civitatis.com/f/colombia/villa-de-leyva/galeria/junto-lagos-azules.jpg',
+        ],
       },
     ],
     nearby: [
@@ -168,24 +198,27 @@ export default function ThingsToDo() {
         descriptionEs: 'Pueblo artesanal colorido. 15 min en carro.',
         descriptionEn: 'Colorful artisan town. 15 min drive.',
         link: 'https://www.google.com/maps/search/?api=1&query=Raquira+Colombia',
+        images: [
+          'https://imagescdn.citix.com.co/citix/production/media/media/a2e3ef95f3eecc402c8bc9f491419f90.jpg',
+        ],
       },
       {
         name: 'Mano del Artesano',
         descriptionEs: 'Escultura gigante de mano con vistas espectaculares.',
         descriptionEn: 'Giant hand sculpture with spectacular views.',
         link: 'https://www.google.com/maps/search/?api=1&query=Mano+del+Artesano+Raquira',
+        images: [
+          'https://lh3.googleusercontent.com/p/AF1QipMfATVvyZgnHxongTFaHtQIdDucBZeyaM8GPujA=s1360-w1360-h1020-rw',
+        ],
       },
       {
         name: 'Casa al Revés',
         descriptionEs: 'Casa al revés. Divertido para todas las edades.',
         descriptionEn: 'Upside down house. Fun for all ages.',
         link: 'https://www.google.com/maps/search/?api=1&query=Casa+al+Reves+Villa+de+Leyva',
-      },
-      {
-        name: 'El Infiernito',
-        descriptionEs: 'Sitio arqueológico Muisca en las colinas.',
-        descriptionEn: 'Muisca archaeological site in the hills.',
-        link: 'https://www.google.com/maps/search/?api=1&query=El+Infiernito+Villa+de+Leyva',
+        images: [
+          'https://lh3.googleusercontent.com/p/AF1QipNmZWEcxlLVUGXvi9rV9a76hW81pE0Eb10q0JXk=s1360-w1360-h1020-rw',
+        ],
       },
     ],
     family: [
@@ -194,6 +227,9 @@ export default function ThingsToDo() {
         descriptionEs: 'Museo, tienda y café de chocolate. Dulces locales deliciosos.',
         descriptionEn: 'Chocolate museum, shop, and café. Delicious local treats.',
         link: 'https://www.google.com/maps/search/?api=1&query=Museo+del+Chocolate+Villa+de+Leyva',
+        images: [
+          'https://museodelchocolate.com.co/wp-content/uploads/2024/11/IMG_20220204_101535-1.jpg',
+        ],
       },
       {
         name: 'Walking Tours',
@@ -201,12 +237,16 @@ export default function ThingsToDo() {
         descriptionEn: 'Guided tours through colonial old town.',
         link: 'https://www.google.com/search?q=walking+tours+Villa+de+Leyva',
         linkType: 'search' as const,
+        images: [],
       },
       {
         name: 'Saturday Market',
         descriptionEs: 'Mercado de agricultores con productos frescos y comida.',
         descriptionEn: 'Farmers market with fresh produce and food.',
         link: 'https://www.google.com/maps/search/?api=1&query=Mercado+Municipal+Villa+de+Leyva',
+        images: [
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQGN2VQTPKlmlHgdU9WKH8XpDPonVixnFINQ&s',
+        ],
       },
       {
         name: 'Bike Rentals',
@@ -214,6 +254,7 @@ export default function ThingsToDo() {
         descriptionEn: 'Bike rentals to explore the town.',
         link: 'https://www.google.com/search?q=bike+rentals+Villa+de+Leyva',
         linkType: 'search' as const,
+        images: [],
       },
     ],
   };
