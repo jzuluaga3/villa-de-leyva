@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Casa de Lujo en Villa de Leyva',
   description: 'Información del viaje familiar de Año Nuevo a Villa de Leyva, Colombia',
+  icons: {
+    icon: '/icon.jpg',
+  },
 };
 
 export default function RootLayout({
