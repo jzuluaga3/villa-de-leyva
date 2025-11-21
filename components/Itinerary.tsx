@@ -194,7 +194,7 @@ export function Itinerary() {
                           
                           {/* Content */}
                           <div className="flex-1 ml-4 md:ml-6">
-                            <div className="flex items-baseline gap-3 flex-wrap">
+                            <div className="flex items-start gap-3 flex-wrap">
                               {event.time && (
                                 <span className="font-semibold text-text-primary text-sm tracking-wide">
                                   {event.time}
@@ -203,28 +203,46 @@ export function Itinerary() {
                               {hasRentalCar ? (
                                 <button
                                   onClick={() => toggleRentalCar(eventId)}
-                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors"
+                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors flex-wrap"
                                 >
-                                  <Car className="w-4 h-4" />
-                                  <span className="font-semibold">{event.description}</span>
+                                  <Car className="w-4 h-4 flex-shrink-0" />
+                                  <span className="font-semibold break-words min-w-0 flex-1">{event.description}</span>
                                   {isRentalExpanded ? (
-                                    <ChevronUp className="w-4 h-4" />
+                                    <ChevronUp className="w-4 h-4 flex-shrink-0" />
                                   ) : (
-                                    <ChevronDown className="w-4 h-4" />
+                                    <ChevronDown className="w-4 h-4 flex-shrink-0" />
                                   )}
                                 </button>
                               ) : hasFlight ? (
                                 <button
                                   onClick={() => toggleFlight(eventId)}
-                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors"
+                                  className="flex items-start gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left"
                                 >
-                                  <Plane className="w-4 h-4" />
-                                  <span className="font-semibold">{event.description}</span>
-                                  {isFlightExpanded ? (
-                                    <ChevronUp className="w-4 h-4" />
-                                  ) : (
-                                    <ChevronDown className="w-4 h-4" />
-                                  )}
+                                  <Plane className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                  <div className="flex-1 min-w-0">
+                                    {(() => {
+                                      const parts = event.description.split(' - ');
+                                      const flightType = parts[0];
+                                      const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
+                                      return (
+                                        <>
+                                          <div className="flex items-center gap-2 flex-wrap">
+                                            <span className="font-semibold break-words">{flightType}</span>
+                                            {isFlightExpanded ? (
+                                              <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                            ) : (
+                                              <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                            )}
+                                          </div>
+                                          {passengers && (
+                                            <div className="mt-0.5">
+                                              <span className="font-semibold break-words">{passengers}</span>
+                                            </div>
+                                          )}
+                                        </>
+                                      );
+                                    })()}
+                                  </div>
                                 </button>
                               ) : (
                                 <span className="text-text-primary text-base leading-relaxed">
