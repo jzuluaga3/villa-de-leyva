@@ -6,6 +6,7 @@ import { MapPin } from 'lucide-react';
 import { getTranslation, type Language } from '@/lib/translations';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n-context';
+import { WeatherWidget } from './WeatherWidget';
 
 export function Navigation() {
   const { lang, setLang } = useI18n();
@@ -56,6 +57,8 @@ export function Navigation() {
                 {getTranslation(lang, 'getDirections')}
               </a>
             )}
+
+            <WeatherWidget />
 
             <button
               onClick={toggleLanguage}
