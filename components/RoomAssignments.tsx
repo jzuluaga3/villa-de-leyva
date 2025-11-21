@@ -86,7 +86,7 @@ export function RoomAssignments() {
   };
 
   return (
-    <section className="pt-8 pb-8 md:py-16 px-4 bg-gray-50">
+    <section className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h2 className="text-3xl font-semibold text-text-primary text-center">

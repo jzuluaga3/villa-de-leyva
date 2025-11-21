@@ -308,7 +308,7 @@ export default function ThingsToDo() {
       <SubNavigation items={subNavItems} />
       
       {/* Header */}
-      <section className="bg-white border-b border-gray-200 py-12 px-4">
+      <section className="bg-white border-b border-gray-200 py-8 md:py-16 px-4 md:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
             {lang === 'es' ? 'Qué Hacer en Villa de Leyva' : 'Things to Do in Villa de Leyva'}
@@ -322,7 +322,7 @@ export default function ThingsToDo() {
       </section>
 
       {/* Restaurants Section */}
-      <section id="restaurants" className="py-16 px-4">
+      <section id="restaurants" className="py-8 md:py-16 px-4 md:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
@@ -372,7 +372,7 @@ export default function ThingsToDo() {
       </section>
 
       {/* Activities Section */}
-      <section id="activities" className="py-16 px-4 bg-white">
+      <section id="activities" className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
