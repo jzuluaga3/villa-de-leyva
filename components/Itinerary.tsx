@@ -1,23 +1,34 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, ChevronDown, ChevronUp, Car, MapPin } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronUp, Car, MapPin, Plane } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
 import { cn } from '@/lib/utils';
 
 interface RentalCarDetails {
   vehicle: string;
-  reservationNumber: string;
+  company: string;
   location: string;
   transmission: string;
   mapsLink: string;
+}
+
+interface FlightDetails {
+  airline: string;
+  flightNumber: string;
+  route: string;
+  departure: string;
+  arrival: string;
+  aircraft: string;
+  passengers?: string[];
 }
 
 interface Event {
   time: string;
   description: string;
   rentalCar?: RentalCarDetails;
+  flight?: FlightDetails;
 }
 
 export function Itinerary() {
@@ -26,7 +37,7 @@ export function Itinerary() {
 
   const rentalCarDetails: RentalCarDetails = {
     vehicle: 'Chevrolet Traverse',
-    reservationNumber: '9725898206',
+    company: 'SIXT Rent a Car - Bogota Airport',
     location: lang === 'es' 
       ? 'Bogotá El Dorado Aeropuerto' 
       : 'Bogotá El Dorado Airport',
@@ -38,6 +49,19 @@ export function Itinerary() {
     {
       date: lang === 'es' ? 'Martes, 30 de Diciembre, 2025' : 'Tuesday, December 30, 2025',
       events: [
+        {
+          time: '10:45 AM',
+          description: lang === 'es' ? 'Vuelo de Llegada - Juan, Kelly, Cliff, Marcela' : 'Arrival Flight - Juan, Kelly, Cliff, Marcela',
+          flight: {
+            airline: 'Avianca',
+            flightNumber: 'AV8451',
+            route: 'MDE → BOG',
+            departure: '09:50 AM',
+            arrival: '10:45 AM',
+            aircraft: 'Airbus A320',
+            passengers: ['Juan', 'Kelly', 'Cliff', 'Marcela'],
+          },
+        },
         { 
           time: '12:00 PM', 
           description: getTranslation(lang, 'rentalCarPickup'),
@@ -70,6 +94,37 @@ export function Itinerary() {
           rentalCar: rentalCarDetails,
         },
         { time: '12:00 PM', description: lang === 'es' ? 'Check-out' : 'Check-out' },
+      ],
+    },
+    {
+      date: lang === 'es' ? 'Sábado, 3 de Enero, 2026' : 'Saturday, January 3, 2026',
+      events: [
+        {
+          time: '12:40 AM',
+          description: lang === 'es' ? 'Vuelo de Salida - Juan, Kelly' : 'Departure Flight - Juan, Kelly',
+          flight: {
+            airline: 'United Airlines',
+            flightNumber: 'UA559',
+            route: 'BOG → EWR',
+            departure: '12:40 AM',
+            arrival: '6:40 AM',
+            aircraft: 'Boeing 737 Max 8',
+            passengers: ['Juan', 'Kelly'],
+          },
+        },
+        {
+          time: '10:55 AM',
+          description: lang === 'es' ? 'Vuelo de Conexión - Juan, Kelly' : 'Connecting Flight - Juan, Kelly',
+          flight: {
+            airline: 'United Airlines',
+            flightNumber: 'UA4172',
+            route: 'EWR → IAD',
+            departure: '10:55 AM',
+            arrival: '12:24 PM',
+            aircraft: 'Bombardier CRJ550',
+            passengers: ['Juan', 'Kelly'],
+          },
+        },
       ],
     },
   ];
@@ -121,6 +176,7 @@ export function Itinerary() {
                     const eventId = `${index}-${eventIndex}`;
                     const isExpanded = expandedRental === eventId;
                     const hasRentalCar = !!event.rentalCar;
+                    const hasFlight = !!event.flight;
                     
                     return (
                       <div key={eventIndex} className="relative">
@@ -151,6 +207,11 @@ export function Itinerary() {
                                     <ChevronDown className="w-4 h-4" />
                                   )}
                                 </button>
+                              ) : hasFlight ? (
+                                <div className="flex items-center gap-2 text-text-primary text-base leading-relaxed">
+                                  <Plane className="w-4 h-4" />
+                                  <span className="font-semibold">{event.description}</span>
+                                </div>
                               ) : (
                                 <span className="text-text-primary text-base leading-relaxed">
                                   {event.description}
@@ -158,10 +219,72 @@ export function Itinerary() {
                               )}
                             </div>
                             
+                            {/* Flight Details */}
+                            {hasFlight && event.flight && (
+                              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
+                                <div className="space-y-2">
+                                  <div className="flex items-start gap-2">
+                                    <Plane className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1">
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Aerolínea' : 'Airline'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.flight.airline} {event.flight.flightNumber}</p>
+                                    </div>
+                                  </div>
+                                  
+                                  <div>
+                                    <p className="text-xs font-medium text-text-secondary mb-1">
+                                      {lang === 'es' ? 'Ruta' : 'Route'}
+                                    </p>
+                                    <p className="text-sm text-text-primary">{event.flight.route}</p>
+                                  </div>
+                                  
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Salida' : 'Departure'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.flight.departure}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Llegada' : 'Arrival'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.flight.arrival}</p>
+                                    </div>
+                                  </div>
+                                  
+                                  <div>
+                                    <p className="text-xs font-medium text-text-secondary mb-1">
+                                      {lang === 'es' ? 'Aeronave' : 'Aircraft'}
+                                    </p>
+                                    <p className="text-sm text-text-primary">{event.flight.aircraft}</p>
+                                  </div>
+                                  
+                                  {event.flight.passengers && event.flight.passengers.length > 0 && (
+                                    <div>
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Pasajeros' : 'Passengers'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.flight.passengers.join(', ')}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            
                             {/* Expandable Rental Car Details */}
                             {hasRentalCar && isExpanded && event.rentalCar && (
                               <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
                                 <div className="space-y-2">
+                                  <div>
+                                    <p className="text-xs font-medium text-text-secondary mb-1">
+                                      {lang === 'es' ? 'Empresa' : 'Company'}
+                                    </p>
+                                    <p className="text-sm text-text-primary">{event.rentalCar.company}</p>
+                                  </div>
+                                  
                                   <div className="flex items-start gap-2">
                                     <Car className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                                     <div className="flex-1">
@@ -183,13 +306,6 @@ export function Itinerary() {
                                       </p>
                                       <p className="text-sm text-text-primary">{event.rentalCar.location}</p>
                                     </div>
-                                  </div>
-                                  
-                                  <div>
-                                    <p className="text-xs font-medium text-text-secondary mb-1">
-                                      {getTranslation(lang, 'reservationNumber')}
-                                    </p>
-                                    <p className="text-sm text-text-primary font-mono">{event.rentalCar.reservationNumber}</p>
                                   </div>
                                 </div>
                                 
