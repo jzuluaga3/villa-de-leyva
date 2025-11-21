@@ -51,7 +51,7 @@ export function Itinerary() {
       date: lang === 'es' ? 'Martes, 30 de Diciembre, 2025' : 'Tuesday, December 30, 2025',
       events: [
         {
-          time: '10:45 AM',
+          time: '9:50 AM',
           description: lang === 'es' ? 'Vuelo de Llegada - Juan, Kelly, Cliff, Marcela' : 'Arrival Flight - Juan, Kelly, Cliff, Marcela',
           flight: {
             airline: 'Avianca',
