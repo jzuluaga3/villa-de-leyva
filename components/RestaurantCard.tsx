@@ -3,12 +3,16 @@
 import { MapPin, ExternalLink } from 'lucide-react';
 import { getTranslation } from '@/lib/translations';
 import { useI18n } from '@/lib/i18n-context';
+import { StarRating } from './StarRating';
 
 interface RestaurantCardProps {
   name: string;
   descriptionEs: string;
   descriptionEn: string;
   googleMapsQuery: string;
+  rating?: number;
+  reviewCount?: number;
+  priceRange?: string;
 }
 
 export function RestaurantCard({
@@ -16,6 +20,9 @@ export function RestaurantCard({
   descriptionEs,
   descriptionEn,
   googleMapsQuery,
+  rating,
+  reviewCount,
+  priceRange,
 }: RestaurantCardProps) {
   const { lang } = useI18n();
 
@@ -25,7 +32,17 @@ export function RestaurantCard({
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-      <h3 className="text-xl font-semibold text-text-primary mb-3">{name}</h3>
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold text-text-primary mb-1">{name}</h3>
+          {priceRange && (
+            <p className="text-sm font-medium text-text-secondary">{priceRange}</p>
+          )}
+        </div>
+        {rating !== undefined && rating > 0 && (
+          <StarRating rating={rating} reviewCount={reviewCount} size="sm" />
+        )}
+      </div>
       <p className="text-base text-text-secondary mb-4">{description}</p>
       
       <div className="flex flex-col sm:flex-row gap-3">

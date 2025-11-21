@@ -6,6 +6,22 @@ import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
 import { UtensilsCrossed, Mountain, Map, Heart, BookOpen } from 'lucide-react';
 
+/**
+ * Google Business Profile (GBP) Ratings
+ * 
+ * To add ratings:
+ * 1. Add `rating` (number 0-5) and `reviewCount` (number) to any restaurant/activity
+ * 2. For dynamic ratings: Add NEXT_PUBLIC_GOOGLE_PLACES_API_KEY to .env.local
+ *    and use the functions in lib/google-places-ratings.ts to fetch ratings
+ * 
+ * Example:
+ * {
+ *   name: 'Restaurant Name',
+ *   rating: 4.5,
+ *   reviewCount: 123,
+ *   ...
+ * }
+ */
 export default function ThingsToDo() {
   const { lang } = useI18n();
 
@@ -16,12 +32,17 @@ export default function ThingsToDo() {
         descriptionEs: 'Café acogedor con excelentes desayunos. Prueba la Changüa.',
         descriptionEn: 'Cozy café with excellent breakfasts. Try the Changüa.',
         googleMapsQuery: 'Café Los Gallos Villa de Leyva',
+        rating: 4.5,
+        reviewCount: 344,
+        priceRange: 'COP $20.000 - $30.000',
       },
       {
         name: 'Chuska Cocina',
         descriptionEs: 'Cocina colombiana moderna. Excelente para desayuno y brunch.',
         descriptionEn: 'Modern Colombian cuisine. Excellent for breakfast and brunch.',
         googleMapsQuery: 'Chuska Cocina Villa de Leyva',
+        rating: 4.9,
+        reviewCount: 4805,
       },
       {
         name: 'Mercado Municipal',
@@ -29,6 +50,8 @@ export default function ThingsToDo() {
         descriptionEn: 'Local farmers market. Saturdays only until 3 PM.',
         googleMapsQuery: 'Mercado Municipal Villa de Leyva',
         note: lang === 'es' ? '(Solo sábados hasta las 3 PM)' : '(Saturdays only until 3 PM)',
+        rating: 4.4,
+        reviewCount: 1642,
       },
       {
         name: 'Astral',
@@ -36,6 +59,9 @@ export default function ThingsToDo() {
         descriptionEn: 'French bakery with excellent pastries and coffee.',
         googleMapsQuery: 'Astral Villa de Leyva',
         note: lang === 'es' ? '(Panadería Francesa)' : '(French Bakery)',
+        rating: 4.7,
+        reviewCount: 428,
+        priceRange: 'COP $1.000 - $20.000',
       },
     ],
     lunch: [
@@ -45,24 +71,26 @@ export default function ThingsToDo() {
         descriptionEn: 'Local farmers market. Saturdays only until 3 PM.',
         googleMapsQuery: 'Mercado Municipal Villa de Leyva',
         note: lang === 'es' ? '(Solo sábados hasta las 3 PM)' : '(Saturdays only until 3 PM)',
-      },
-      {
-        name: 'Cuatro Nudos',
-        descriptionEs: 'Vista espectacular de la plaza. Cocina internacional.',
-        descriptionEn: 'Spectacular plaza views. International cuisine.',
-        googleMapsQuery: 'Cuatro Nudos Villa de Leyva',
+        rating: 4.4,
+        reviewCount: 1642,
       },
       {
         name: 'Tierra de Carnes',
         descriptionEs: 'Carnes a la parrilla y costillas lentas. Famoso por las hamburguesas.',
         descriptionEn: 'Grilled meats and slow-cooked ribs. Famous for burgers.',
         googleMapsQuery: 'Tierra de Carnes Villa de Leyva',
+        rating: 4.7,
+        reviewCount: 1305,
+        priceRange: 'COP $40.000 - $60.000',
       },
       {
         name: 'La Maria Bistro',
         descriptionEs: 'Cocina colombiana e internacional. Dos ubicaciones.',
         descriptionEn: 'Colombian and international cuisine. Two locations.',
         googleMapsQuery: 'La Maria Bistro Villa de Leyva',
+        rating: 4.6,
+        reviewCount: 864,
+        priceRange: 'COP $25.000 - $40.000',
       },
     ],
     dinner: [
@@ -71,12 +99,9 @@ export default function ThingsToDo() {
         descriptionEs: 'Excelente servicio y comida. Pasta altamente recomendada.',
         descriptionEn: 'Excellent service and food. Highly recommended pasta.',
         googleMapsQuery: 'Restaurante Casa San Pedro Villa de Leyva',
-      },
-      {
-        name: 'El Rincón Gourmet De la Villa',
-        descriptionEs: 'Piano bar y cocina mediterránea. Ambiente romántico.',
-        descriptionEn: 'Piano bar and Mediterranean cuisine. Romantic atmosphere.',
-        googleMapsQuery: 'El Rincón Gourmet Villa de Leyva',
+        rating: 4.4,
+        reviewCount: 1963,
+        priceRange: 'COP $60.000 - $80.000',
       },
       {
         name: 'Zarina Restaurante',
@@ -84,12 +109,18 @@ export default function ThingsToDo() {
         descriptionEn: 'Exceptional Lebanese cuisine. Try the falafel and tabule.',
         googleMapsQuery: 'Zarina Restaurante Villa de Leyva',
         note: lang === 'es' ? '(Libanesa)' : '(Lebanese)',
+        rating: 4.5,
+        reviewCount: 169,
+        priceRange: 'COP $40.000 - $50.000',
       },
       {
         name: 'Tierra de Carnes',
         descriptionEs: 'Carnes a la parrilla y costillas lentas. Famoso por las hamburguesas.',
         descriptionEn: 'Grilled meats and slow-cooked ribs. Famous for burgers.',
         googleMapsQuery: 'Tierra de Carnes Villa de Leyva',
+        rating: 4.7,
+        reviewCount: 1305,
+        priceRange: 'COP $40.000 - $60.000',
       },
     ],
   };
