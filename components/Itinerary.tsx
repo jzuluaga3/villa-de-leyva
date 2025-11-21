@@ -189,38 +189,38 @@ export function Itinerary() {
                     return (
                       <div key={eventIndex} className="relative">
                         <div className="flex items-start gap-4">
-                          {/* Bullet point - centered on line */}
-                          <div className="absolute left-[10px] top-1.5 z-10 flex-shrink-0" style={{ transform: 'translateX(-50%)' }}>
+                          {/* Bullet point - aligned with first line of text */}
+                          <div className="absolute left-[10px] top-[0.8125rem] z-10 flex-shrink-0" style={{ transform: 'translateX(-50%) translateY(-50%)' }}>
                             <div className="w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-white shadow-sm" />
                           </div>
                           
                           {/* Content */}
                           <div className="flex-1 ml-6 md:ml-6">
-                            <div className="flex items-start gap-3 flex-wrap md:flex-nowrap">
+                            <div className="flex items-baseline gap-3 flex-wrap md:flex-nowrap">
                               {event.time && (
-                                <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap">
+                                <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap leading-normal">
                                   {event.time}
                                 </span>
                               )}
                               {hasRentalCar ? (
                                 <button
                                   onClick={() => toggleRentalCar(eventId)}
-                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors flex-wrap"
+                                  className="flex items-baseline gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors flex-wrap"
                                 >
-                                  <Car className="w-4 h-4 flex-shrink-0" />
-                                  <span className="font-semibold break-words min-w-0 flex-1">{event.description}</span>
+                                  <Car className="w-4 h-4 flex-shrink-0 self-center" />
+                                  <span className="font-semibold break-words min-w-0 flex-1 leading-normal">{event.description}</span>
                                   {isRentalExpanded ? (
-                                    <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                    <ChevronUp className="w-4 h-4 flex-shrink-0 self-center" />
                                   ) : (
-                                    <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                    <ChevronDown className="w-4 h-4 flex-shrink-0 self-center" />
                                   )}
                                 </button>
                               ) : hasFlight ? (
                                 <button
                                   onClick={() => toggleFlight(eventId)}
-                                  className="flex items-start md:items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors flex-wrap md:flex-nowrap w-full text-left"
+                                  className="flex items-baseline md:items-baseline gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors flex-wrap md:flex-nowrap w-full text-left"
                                 >
-                                  <Plane className="w-4 h-4 flex-shrink-0 md:mt-0 mt-0.5" />
+                                  <Plane className="w-4 h-4 flex-shrink-0 self-center" />
                                   {(() => {
                                     const parts = event.description.split(' - ');
                                     const flightType = parts[0];
@@ -229,27 +229,27 @@ export function Itinerary() {
                                       <>
                                         {/* Mobile: Split layout */}
                                         <div className="md:hidden flex-1 min-w-0">
-                                          <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="font-semibold break-words">{flightType}</span>
+                                          <div className="flex items-baseline gap-2 flex-wrap">
+                                            <span className="font-semibold break-words leading-normal">{flightType}</span>
                                             {isFlightExpanded ? (
-                                              <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                              <ChevronUp className="w-4 h-4 flex-shrink-0 self-center" />
                                             ) : (
-                                              <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                              <ChevronDown className="w-4 h-4 flex-shrink-0 self-center" />
                                             )}
                                           </div>
                                           {passengers && (
                                             <div className="mt-0.5">
-                                              <span className="font-semibold break-words">{passengers}</span>
+                                              <span className="font-semibold break-words leading-normal">{passengers}</span>
                                             </div>
                                           )}
                                         </div>
                                         {/* Desktop: Single line like rental car */}
-                                        <span className="hidden md:inline font-semibold break-words min-w-0 flex-1">{event.description}</span>
+                                        <span className="hidden md:inline font-semibold break-words min-w-0 flex-1 leading-normal">{event.description}</span>
                                         <span className="hidden md:inline">
                                           {isFlightExpanded ? (
-                                            <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                            <ChevronUp className="w-4 h-4 flex-shrink-0 self-center" />
                                           ) : (
-                                            <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                            <ChevronDown className="w-4 h-4 flex-shrink-0 self-center" />
                                           )}
                                         </span>
                                       </>
@@ -257,7 +257,7 @@ export function Itinerary() {
                                   })()}
                                 </button>
                               ) : (
-                                <span className="text-text-primary text-base leading-relaxed">
+                                <span className="text-text-primary text-base leading-normal">
                                   {event.description}
                                 </span>
                               )}
