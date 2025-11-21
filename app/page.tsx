@@ -26,7 +26,7 @@ export default function Home() {
       <Hero />
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className={`grid grid-cols-1 gap-6 ${showCountdown ? 'lg:grid-cols-2' : 'lg:grid-cols-1 lg:max-w-3xl lg:mx-auto'}`}>
+          <div className={`grid grid-cols-1 gap-6 ${showCountdown ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
             <TripInfo />
             {showCountdown && <Countdown />}
           </div>
