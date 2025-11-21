@@ -169,11 +169,8 @@ export function Weather() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-text-primary mb-2">
-            {getTranslation(lang, 'weather')} - Villa de Leyva
+            {lang === 'es' ? 'Clima en Villa de Leyva' : 'Weather in Villa de Leyva'}
           </h2>
-          <p className="text-sm text-text-secondary">
-            {isTripWeather ? getTranslation(lang, 'tripWeatherSubtitle') : getTranslation(lang, 'currentWeatherSubtitle')}
-          </p>
         </div>
 
         <div className="space-y-6">
@@ -186,11 +183,8 @@ export function Weather() {
               <div className="flex items-center justify-center gap-6">
                 <div className="text-6xl">{getWeatherIcon(currentWeather.weatherCode)}</div>
                 <div className="text-left">
-                  <p className="text-4xl font-bold text-text-primary mb-1">
+                  <p className="text-4xl font-bold text-text-primary">
                     {formatTemp(currentWeather.temperature)}
-                  </p>
-                  <p className="text-sm text-text-secondary">
-                    {lang === 'es' ? 'Ahora en Villa de Leyva' : 'Right now in Villa de Leyva'}
                   </p>
                 </div>
               </div>
