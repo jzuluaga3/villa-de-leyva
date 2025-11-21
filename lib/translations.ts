@@ -47,6 +47,14 @@ export const translations = {
     currentWeather: 'Clima Actual',
     tripWeatherSubtitle: 'Pronóstico para las fechas del viaje en Villa de Leyva',
     currentWeatherSubtitle: 'Pronóstico actual del clima en Villa de Leyva',
+    rentalCarPickup: 'Recogida de Auto',
+    rentalCarDropoff: 'Devolución de Auto',
+    vehicle: 'Vehículo',
+    reservationNumber: 'Número de Reserva',
+    location: 'Ubicación',
+    transmission: 'Transmisión',
+    automatic: 'Automático',
+    getDirections: 'Obtener Direcciones',
   },
   en: {
     title: 'Luxury House in Villa de Leyva',
@@ -94,6 +102,13 @@ export const translations = {
     currentWeather: 'Current Weather',
     tripWeatherSubtitle: 'Forecast for trip dates in Villa de Leyva',
     currentWeatherSubtitle: 'Current weather forecast in Villa de Leyva',
+    rentalCarPickup: 'Rental Car Pick Up',
+    rentalCarDropoff: 'Rental Car Drop Off',
+    vehicle: 'Vehicle',
+    reservationNumber: 'Reservation Number',
+    location: 'Location',
+    transmission: 'Transmission',
+    automatic: 'Automatic',
   },
 } as const;
 
