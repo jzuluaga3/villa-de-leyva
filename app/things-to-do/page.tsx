@@ -2,6 +2,7 @@
 
 import { RestaurantCard } from '@/components/RestaurantCard';
 import { ActivityCard } from '@/components/ActivityCard';
+import { SubNavigation } from '@/components/SubNavigation';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
 import { UtensilsCrossed, Mountain, Map, Heart, BookOpen } from 'lucide-react';
@@ -290,8 +291,22 @@ export default function ThingsToDo() {
     ],
   };
 
+  const subNavItems = [
+    { id: 'restaurants', label: getTranslation(lang, 'restaurants') },
+    { id: 'breakfast', label: getTranslation(lang, 'breakfast') },
+    { id: 'lunch', label: getTranslation(lang, 'lunch') },
+    { id: 'dinner', label: getTranslation(lang, 'dinner') },
+    { id: 'activities', label: getTranslation(lang, 'activities') },
+    { id: 'cultural', label: getTranslation(lang, 'cultural') },
+    { id: 'nature', label: getTranslation(lang, 'natureAdventure') },
+    { id: 'nearby', label: getTranslation(lang, 'nearby') },
+    { id: 'family', label: getTranslation(lang, 'familyFriendly') },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <SubNavigation items={subNavItems} />
+      
       {/* Header */}
       <section className="bg-white border-b border-gray-200 py-12 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -307,7 +322,7 @@ export default function ThingsToDo() {
       </section>
 
       {/* Restaurants Section */}
-      <section className="py-16 px-4">
+      <section id="restaurants" className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
@@ -319,7 +334,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Breakfast */}
-          <div className="mb-12">
+          <div id="breakfast" className="mb-12 scroll-mt-24">
             <h3 className="text-2xl font-semibold text-text-primary mb-6">
               {getTranslation(lang, 'breakfast')}
             </h3>
@@ -331,7 +346,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Lunch */}
-          <div className="mb-12">
+          <div id="lunch" className="mb-12 scroll-mt-24">
             <h3 className="text-2xl font-semibold text-text-primary mb-6">
               {getTranslation(lang, 'lunch')}
             </h3>
@@ -343,7 +358,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Dinner */}
-          <div className="mb-12">
+          <div id="dinner" className="mb-12 scroll-mt-24">
             <h3 className="text-2xl font-semibold text-text-primary mb-6">
               {getTranslation(lang, 'dinner')}
             </h3>
@@ -357,7 +372,7 @@ export default function ThingsToDo() {
       </section>
 
       {/* Activities Section */}
-      <section className="py-16 px-4 bg-white">
+      <section id="activities" className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
@@ -369,7 +384,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Cultural */}
-          <div className="mb-12">
+          <div id="cultural" className="mb-12 scroll-mt-24">
             <div className="flex items-center gap-3 mb-6">
               <BookOpen className="w-5 h-5 text-primary" />
               <h3 className="text-2xl font-semibold text-text-primary">
@@ -384,7 +399,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Nature & Adventure */}
-          <div className="mb-12">
+          <div id="nature" className="mb-12 scroll-mt-24">
             <div className="flex items-center gap-3 mb-6">
               <Mountain className="w-5 h-5 text-primary" />
               <h3 className="text-2xl font-semibold text-text-primary">
@@ -399,7 +414,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Nearby Attractions */}
-          <div className="mb-12">
+          <div id="nearby" className="mb-12 scroll-mt-24">
             <div className="flex items-center gap-3 mb-6">
               <Map className="w-5 h-5 text-primary" />
               <h3 className="text-2xl font-semibold text-text-primary">
@@ -414,7 +429,7 @@ export default function ThingsToDo() {
           </div>
 
           {/* Family-Friendly */}
-          <div className="mb-12">
+          <div id="family" className="mb-12 scroll-mt-24">
             <div className="flex items-center gap-3 mb-6">
               <Heart className="w-5 h-5 text-primary" />
               <h3 className="text-2xl font-semibold text-text-primary">
