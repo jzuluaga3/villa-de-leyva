@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #FF5A5F;
+  --background: #FFFFFF;
+  --text-primary: #484848;
+  --text-secondary: #767676;
+  --border: #EBEBEB;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
