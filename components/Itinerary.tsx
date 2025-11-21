@@ -46,34 +46,60 @@ export function Itinerary() {
           </h2>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {itineraryItems.map((day, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-md p-6 border border-gray-200"
+              className="bg-white rounded-lg shadow-md p-8 border border-gray-200"
             >
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-6">
                 <Calendar className="w-5 h-5 text-primary" />
                 <div>
                   <h3 className="text-lg font-semibold text-text-primary">{day.date}</h3>
                   {day.subtitle && (
-                    <p className="text-sm text-text-secondary">{day.subtitle}</p>
+                    <p className="text-sm text-text-secondary mt-1">{day.subtitle}</p>
                   )}
                 </div>
               </div>
 
-              <ul className="space-y-2 ml-8">
-                {day.events.map((event, eventIndex) => (
-                  <li key={eventIndex} className="flex gap-3">
-                    {event.time && (
-                      <span className="font-medium text-text-primary min-w-[80px]">
-                        {event.time}
-                      </span>
-                    )}
-                    <span className="text-text-primary">- {event.description}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="relative pl-6">
+                {/* Vertical dashed line */}
+                {day.events.length > 1 && (
+                  <div 
+                    className="absolute left-[10px] top-2 bottom-2 w-[1px] z-0" 
+                    style={{ 
+                      backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
+                      backgroundSize: '1px 8px'
+                    }} 
+                  />
+                )}
+                
+                {/* Events with bullets */}
+                <div className="space-y-5">
+                  {day.events.map((event, eventIndex) => (
+                    <div key={eventIndex} className="relative flex items-start gap-4">
+                      {/* Bullet point */}
+                      <div className="absolute -left-[19px] top-1.5 z-10 flex-shrink-0">
+                        <div className="w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-white shadow-sm" />
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="flex-1">
+                        <div className="flex items-baseline gap-3 flex-wrap">
+                          {event.time && (
+                            <span className="font-semibold text-text-primary text-sm tracking-wide">
+                              {event.time}
+                            </span>
+                          )}
+                          <span className="text-text-primary text-base leading-relaxed">
+                            {event.description}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
