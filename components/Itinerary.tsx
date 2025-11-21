@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, ChevronDown, ChevronUp, Car, MapPin, Plane } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronUp, Car, MapPin, Plane, Route, Clock, Users, Building } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
 import { cn } from '@/lib/utils';
@@ -34,6 +34,7 @@ interface Event {
 export function Itinerary() {
   const { lang } = useI18n();
   const [expandedRental, setExpandedRental] = useState<string | null>(null);
+  const [expandedFlight, setExpandedFlight] = useState<string | null>(null);
 
   const rentalCarDetails: RentalCarDetails = {
     vehicle: 'Chevrolet Traverse',
@@ -133,6 +134,10 @@ export function Itinerary() {
     setExpandedRental(expandedRental === eventId ? null : eventId);
   };
 
+  const toggleFlight = (eventId: string) => {
+    setExpandedFlight(expandedFlight === eventId ? null : eventId);
+  };
+
   return (
     <section className="pt-8 pb-8 md:py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -174,7 +179,8 @@ export function Itinerary() {
                   )}
                   {day.events.map((event, eventIndex) => {
                     const eventId = `${index}-${eventIndex}`;
-                    const isExpanded = expandedRental === eventId;
+                    const isRentalExpanded = expandedRental === eventId;
+                    const isFlightExpanded = expandedFlight === eventId;
                     const hasRentalCar = !!event.rentalCar;
                     const hasFlight = !!event.flight;
                     
@@ -201,17 +207,25 @@ export function Itinerary() {
                                 >
                                   <Car className="w-4 h-4" />
                                   <span className="font-semibold">{event.description}</span>
-                                  {isExpanded ? (
+                                  {isRentalExpanded ? (
                                     <ChevronUp className="w-4 h-4" />
                                   ) : (
                                     <ChevronDown className="w-4 h-4" />
                                   )}
                                 </button>
                               ) : hasFlight ? (
-                                <div className="flex items-center gap-2 text-text-primary text-base leading-relaxed">
+                                <button
+                                  onClick={() => toggleFlight(eventId)}
+                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors"
+                                >
                                   <Plane className="w-4 h-4" />
                                   <span className="font-semibold">{event.description}</span>
-                                </div>
+                                  {isFlightExpanded ? (
+                                    <ChevronUp className="w-4 h-4" />
+                                  ) : (
+                                    <ChevronDown className="w-4 h-4" />
+                                  )}
+                                </button>
                               ) : (
                                 <span className="text-text-primary text-base leading-relaxed">
                                   {event.description}
@@ -220,7 +234,7 @@ export function Itinerary() {
                             </div>
                             
                             {/* Flight Details */}
-                            {hasFlight && event.flight && (
+                            {hasFlight && isFlightExpanded && event.flight && (
                               <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
                                 <div className="space-y-2">
                                   <div className="flex items-start gap-2">
@@ -233,41 +247,56 @@ export function Itinerary() {
                                     </div>
                                   </div>
                                   
-                                  <div>
-                                    <p className="text-xs font-medium text-text-secondary mb-1">
-                                      {lang === 'es' ? 'Ruta' : 'Route'}
-                                    </p>
-                                    <p className="text-sm text-text-primary">{event.flight.route}</p>
+                                  <div className="flex items-start gap-2">
+                                    <Route className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1">
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Ruta' : 'Route'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.flight.route}</p>
+                                    </div>
                                   </div>
                                   
                                   <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
-                                        {lang === 'es' ? 'Salida' : 'Departure'}
-                                      </p>
-                                      <p className="text-sm text-text-primary">{event.flight.departure}</p>
+                                    <div className="flex items-start gap-2">
+                                      <Clock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                      <div className="flex-1">
+                                        <p className="text-xs font-medium text-text-secondary mb-1">
+                                          {lang === 'es' ? 'Salida' : 'Departure'}
+                                        </p>
+                                        <p className="text-sm text-text-primary">{event.flight.departure}</p>
+                                      </div>
                                     </div>
-                                    <div>
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
-                                        {lang === 'es' ? 'Llegada' : 'Arrival'}
-                                      </p>
-                                      <p className="text-sm text-text-primary">{event.flight.arrival}</p>
+                                    <div className="flex items-start gap-2">
+                                      <Clock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                      <div className="flex-1">
+                                        <p className="text-xs font-medium text-text-secondary mb-1">
+                                          {lang === 'es' ? 'Llegada' : 'Arrival'}
+                                        </p>
+                                        <p className="text-sm text-text-primary">{event.flight.arrival}</p>
+                                      </div>
                                     </div>
                                   </div>
                                   
-                                  <div>
-                                    <p className="text-xs font-medium text-text-secondary mb-1">
-                                      {lang === 'es' ? 'Aeronave' : 'Aircraft'}
-                                    </p>
-                                    <p className="text-sm text-text-primary">{event.flight.aircraft}</p>
+                                  <div className="flex items-start gap-2">
+                                    <Plane className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1">
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Aeronave' : 'Aircraft'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.flight.aircraft}</p>
+                                    </div>
                                   </div>
                                   
                                   {event.flight.passengers && event.flight.passengers.length > 0 && (
-                                    <div>
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
-                                        {lang === 'es' ? 'Pasajeros' : 'Passengers'}
-                                      </p>
-                                      <p className="text-sm text-text-primary">{event.flight.passengers.join(', ')}</p>
+                                    <div className="flex items-start gap-2">
+                                      <Users className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                      <div className="flex-1">
+                                        <p className="text-xs font-medium text-text-secondary mb-1">
+                                          {lang === 'es' ? 'Pasajeros' : 'Passengers'}
+                                        </p>
+                                        <p className="text-sm text-text-primary">{event.flight.passengers.join(', ')}</p>
+                                      </div>
                                     </div>
                                   )}
                                 </div>
@@ -275,14 +304,17 @@ export function Itinerary() {
                             )}
                             
                             {/* Expandable Rental Car Details */}
-                            {hasRentalCar && isExpanded && event.rentalCar && (
+                            {hasRentalCar && isRentalExpanded && event.rentalCar && (
                               <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
                                 <div className="space-y-2">
-                                  <div>
-                                    <p className="text-xs font-medium text-text-secondary mb-1">
-                                      {lang === 'es' ? 'Empresa' : 'Company'}
-                                    </p>
-                                    <p className="text-sm text-text-primary">{event.rentalCar.company}</p>
+                                  <div className="flex items-start gap-2">
+                                    <Building className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1">
+                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                        {lang === 'es' ? 'Empresa' : 'Company'}
+                                      </p>
+                                      <p className="text-sm text-text-primary">{event.rentalCar.company}</p>
+                                    </div>
                                   </div>
                                   
                                   <div className="flex items-start gap-2">
