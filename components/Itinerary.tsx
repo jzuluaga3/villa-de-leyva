@@ -69,12 +69,14 @@ export function Itinerary() {
           rentalCar: rentalCarDetails,
         },
         { time: '3:00 PM', description: lang === 'es' ? 'Check-in' : 'Check-in' },
+        { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
       ],
     },
     {
       date: lang === 'es' ? 'Miércoles, 31 de Diciembre, 2025' : 'Wednesday, December 31, 2025',
       subtitle: lang === 'es' ? '(Nochevieja)' : '(New Year\'s Eve)',
       events: [
+        { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
         { time: '8:00 PM', description: lang === 'es' ? 'Cena Familiar en la Casa' : 'Family Dinner at the House' },
         { time: '12:00 AM', description: lang === 'es' ? 'Celebración de Año Nuevo' : 'New Year\'s Celebration' },
       ],
@@ -83,7 +85,7 @@ export function Itinerary() {
       date: lang === 'es' ? 'Jueves, 1 de Enero, 2026' : 'Thursday, January 1, 2026',
       subtitle: lang === 'es' ? '(Día de Año Nuevo)' : '(New Year\'s Day)',
       events: [
-        { time: '', description: lang === 'es' ? 'Abierto para actividades' : 'Open for activities' },
+        { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
       ],
     },
     {
@@ -193,7 +195,7 @@ export function Itinerary() {
                           </div>
                           
                           {/* Content */}
-                          <div className="flex-1 ml-4 md:ml-6">
+                          <div className="flex-1 ml-6 md:ml-6">
                             <div className="flex items-start gap-3 flex-wrap md:flex-nowrap">
                               {event.time && (
                                 <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap">

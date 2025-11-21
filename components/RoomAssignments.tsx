@@ -111,7 +111,7 @@ export function RoomAssignments() {
                     {getTranslation(lang, 'bedroom')}
                   </span>
                 </div>
-                <ul className="list-disc list-inside space-y-1 ml-2">
+                <ul className="list-disc list-inside space-y-1 ml-4 md:ml-2 [&>li::marker]:text-primary">
                   {room.beds.map((bed, index) => (
                     <li key={index} className="text-sm text-text-primary">
                       {getBedLabel(bed.type, bed.count)}
@@ -127,7 +127,7 @@ export function RoomAssignments() {
                     {getTranslation(lang, 'guests')}
                   </span>
                 </div>
-                <ul className="list-disc list-inside space-y-1 ml-2">
+                <ul className="list-disc list-inside space-y-1 ml-4 md:ml-2 [&>li::marker]:text-primary">
                   {room.guests.map((guest, index) => (
                     <li key={index} className="text-sm text-text-primary">
                       {guest}
