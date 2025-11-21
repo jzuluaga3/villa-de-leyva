@@ -79,7 +79,7 @@ export function Itinerary() {
   };
 
   return (
-    <section className="py-16 px-4">
+    <section className="pt-8 pb-8 md:py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h2 className="text-3xl font-semibold text-text-primary text-center">
@@ -104,19 +104,19 @@ export function Itinerary() {
               </div>
 
               <div className="relative pl-6">
-                {/* Vertical dashed line */}
-                {day.events.length > 1 && (
-                  <div 
-                    className="absolute left-[10px] top-2 bottom-2 w-[1px] z-0" 
-                    style={{ 
-                      backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
-                      backgroundSize: '1px 8px'
-                    }} 
-                  />
-                )}
-                
                 {/* Events with bullets */}
-                <div className="space-y-5">
+                <div className="space-y-5 relative">
+                  {/* Vertical dashed line - connects through bullet centers */}
+                  {day.events.length > 1 && (
+                    <div 
+                      className="absolute left-[10px] top-[9px] bottom-[9px] w-[1px] z-0" 
+                      style={{ 
+                        backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
+                        backgroundSize: '1px 8px',
+                        transform: 'translateX(-50%)',
+                      }} 
+                    />
+                  )}
                   {day.events.map((event, eventIndex) => {
                     const eventId = `${index}-${eventIndex}`;
                     const isExpanded = expandedRental === eventId;
@@ -125,13 +125,13 @@ export function Itinerary() {
                     return (
                       <div key={eventIndex} className="relative">
                         <div className="flex items-start gap-4">
-                          {/* Bullet point */}
-                          <div className="absolute -left-[19px] top-1.5 z-10 flex-shrink-0">
+                          {/* Bullet point - centered on line */}
+                          <div className="absolute left-[10px] top-1.5 z-10 flex-shrink-0" style={{ transform: 'translateX(-50%)' }}>
                             <div className="w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-white shadow-sm" />
                           </div>
                           
                           {/* Content */}
-                          <div className="flex-1">
+                          <div className="flex-1 ml-4 md:ml-6">
                             <div className="flex items-baseline gap-3 flex-wrap">
                               {event.time && (
                                 <span className="font-semibold text-text-primary text-sm tracking-wide">

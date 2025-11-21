@@ -86,7 +86,7 @@ export function RoomAssignments() {
   };
 
   return (
-    <section className="py-16 px-4 bg-gray-50">
+    <section className="pt-8 pb-8 md:py-16 px-4 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h2 className="text-3xl font-semibold text-text-primary text-center">
@@ -111,10 +111,10 @@ export function RoomAssignments() {
                     {getTranslation(lang, 'bedroom')}
                   </span>
                 </div>
-                <ul className="ml-7 space-y-1">
+                <ul className="list-disc list-inside space-y-1 ml-2">
                   {room.beds.map((bed, index) => (
                     <li key={index} className="text-sm text-text-primary">
-                      • {getBedLabel(bed.type, bed.count)}
+                      {getBedLabel(bed.type, bed.count)}
                     </li>
                   ))}
                 </ul>
@@ -127,10 +127,10 @@ export function RoomAssignments() {
                     {getTranslation(lang, 'guests')}
                   </span>
                 </div>
-                <ul className="ml-7 space-y-1">
+                <ul className="list-disc list-inside space-y-1 ml-2">
                   {room.guests.map((guest, index) => (
                     <li key={index} className="text-sm text-text-primary">
-                      • {guest}
+                      {guest}
                     </li>
                   ))}
                 </ul>
