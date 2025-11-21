@@ -13,9 +13,15 @@ interface WeatherData {
   weatherCode: number;
 }
 
+interface CurrentWeather {
+  temperature: number;
+  weatherCode: number;
+}
+
 export function Weather() {
   const { lang } = useI18n();
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
+  const [currentWeather, setCurrentWeather] = useState<CurrentWeather | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isTripWeather, setIsTripWeather] = useState(false);
@@ -64,8 +70,8 @@ export function Weather() {
           }
         }
 
-        // Fallback: get current weather forecast
-        const currentUrl = 'https://api.open-meteo.com/v1/forecast?latitude=5.6344&longitude=-73.5264&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Bogota&forecast_days=4';
+        // Fallback: get current weather and forecast
+        const currentUrl = 'https://api.open-meteo.com/v1/forecast?latitude=5.6344&longitude=-73.5264&current=temperature_2m,weathercode&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Bogota&forecast_days=5';
         const fallbackResponse = await fetch(currentUrl);
         
         if (!fallbackResponse.ok) {
@@ -74,13 +80,33 @@ export function Weather() {
         
         const fallbackData = await fallbackResponse.json();
         
+        // Set current weather
+        if (fallbackData.current) {
+          setCurrentWeather({
+            temperature: fallbackData.current.temperature_2m,
+            weatherCode: fallbackData.current.weathercode,
+          });
+        }
+        
+        // Filter forecast to start from today
         if (fallbackData.daily && fallbackData.daily.time) {
-          const forecast: WeatherData[] = fallbackData.daily.time.map((date: string, index: number) => ({
-            date,
-            maxTemp: fallbackData.daily.temperature_2m_max[index],
-            minTemp: fallbackData.daily.temperature_2m_min[index],
-            weatherCode: fallbackData.daily.weathercode[index],
-          }));
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // Reset to start of day
+          
+          const forecast: WeatherData[] = fallbackData.daily.time
+            .map((dateString: string, index: number) => ({
+              date: dateString,
+              maxTemp: fallbackData.daily.temperature_2m_max[index],
+              minTemp: fallbackData.daily.temperature_2m_min[index],
+              weatherCode: fallbackData.daily.weathercode[index],
+            }))
+            .filter((day: WeatherData) => {
+              const dayDate = new Date(day.date);
+              dayDate.setHours(0, 0, 0, 0);
+              return dayDate >= today;
+            })
+            .slice(0, 4); // Take only next 4 days
+          
           setWeatherData(forecast);
           setIsTripWeather(false);
         } else {
@@ -143,43 +169,75 @@ export function Weather() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-text-primary mb-2">
-            {isTripWeather ? getTranslation(lang, 'tripWeather') : getTranslation(lang, 'currentWeather')} - Villa de Leyva
+            {getTranslation(lang, 'weather')} - Villa de Leyva
           </h2>
           <p className="text-sm text-text-secondary">
             {isTripWeather ? getTranslation(lang, 'tripWeatherSubtitle') : getTranslation(lang, 'currentWeatherSubtitle')}
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {weatherData.map((day: WeatherData, index: number) => {
-              const { dayName, month, day: dayNum } = formatDate(day.date);
-              return (
-                <div
-                  key={index}
-                  className="text-center p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="text-4xl mb-2">{getWeatherIcon(day.weatherCode)}</div>
-                  <p className="font-semibold text-text-primary mb-1">
-                    {dayName}
+        <div className="space-y-6">
+          {/* Current Weather */}
+          {currentWeather && !isTripWeather && (
+            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+              <h3 className="text-xl font-semibold text-text-primary mb-4 text-center">
+                {lang === 'es' ? 'Clima Actual' : 'Current Weather'}
+              </h3>
+              <div className="flex items-center justify-center gap-6">
+                <div className="text-6xl">{getWeatherIcon(currentWeather.weatherCode)}</div>
+                <div className="text-left">
+                  <p className="text-4xl font-bold text-text-primary mb-1">
+                    {formatTemp(currentWeather.temperature)}
                   </p>
-                  <p className="text-sm text-text-secondary mb-3">
-                    {month} {dayNum}
+                  <p className="text-sm text-text-secondary">
+                    {lang === 'es' ? 'Ahora en Villa de Leyva' : 'Right now in Villa de Leyva'}
                   </p>
-                  <div className="space-y-1">
-                    <p className="text-sm text-text-primary">
-                      <span className="text-text-secondary">{getTranslation(lang, 'high')}: </span>
-                      <span className="font-semibold">{formatTemp(day.maxTemp)}</span>
-                    </p>
-                    <p className="text-sm text-text-primary">
-                      <span className="text-text-secondary">{getTranslation(lang, 'low')}: </span>
-                      <span className="font-semibold">{formatTemp(day.minTemp)}</span>
-                    </p>
-                  </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            </div>
+          )}
+
+          {/* Forecast */}
+          {weatherData.length > 0 && (
+            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+              <h3 className="text-xl font-semibold text-text-primary mb-4 text-center">
+                {isTripWeather 
+                  ? (lang === 'es' ? 'Pronóstico del Viaje' : 'Trip Forecast')
+                  : (lang === 'es' ? 'Pronóstico de los Próximos Días' : 'Forecast')
+                }
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {weatherData.map((day: WeatherData, index: number) => {
+                  const { dayName, month, day: dayNum } = formatDate(day.date);
+                  const isToday = new Date(day.date).toDateString() === new Date().toDateString();
+                  return (
+                    <div
+                      key={index}
+                      className="text-center p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="text-4xl mb-2">{getWeatherIcon(day.weatherCode)}</div>
+                      <p className="font-semibold text-text-primary mb-1">
+                        {isToday ? (lang === 'es' ? 'Hoy' : 'Today') : dayName}
+                      </p>
+                      <p className="text-sm text-text-secondary mb-3">
+                        {month} {dayNum}
+                      </p>
+                      <div className="space-y-1">
+                        <p className="text-sm text-text-primary">
+                          <span className="text-text-secondary">{getTranslation(lang, 'high')}: </span>
+                          <span className="font-semibold">{formatTemp(day.maxTemp)}</span>
+                        </p>
+                        <p className="text-sm text-text-primary">
+                          <span className="text-text-secondary">{getTranslation(lang, 'low')}: </span>
+                          <span className="font-semibold">{formatTemp(day.minTemp)}</span>
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
