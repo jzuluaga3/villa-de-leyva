@@ -27,6 +27,7 @@ interface FlightDetails {
 interface Event {
   time: string;
   description: string;
+  participants?: string;
   rentalCar?: RentalCarDetails;
   flight?: FlightDetails;
 }
@@ -52,7 +53,8 @@ export function Itinerary() {
       events: [
         {
           time: '9:50 AM',
-          description: lang === 'es' ? 'Vuelo de Llegada - Juan, Kelly, Cliff, Marcela' : 'Arrival Flight - Juan, Kelly, Cliff, Marcela',
+          description: lang === 'es' ? 'Vuelo de Llegada' : 'Arrival Flight',
+          participants: lang === 'es' ? 'Juan David, Kelly, Cliff y Marcela' : 'Juan David, Kelly, Cliff, Marcela',
           flight: {
             airline: 'Avianca',
             flightNumber: 'AV8451',
@@ -60,7 +62,7 @@ export function Itinerary() {
             departure: '09:50 AM',
             arrival: '10:45 AM',
             aircraft: 'Airbus A320',
-            passengers: ['Juan', 'Kelly', 'Cliff', 'Marcela'],
+            passengers: ['Juan David', 'Kelly', 'Cliff', 'Marcela'],
           },
         },
         { 
@@ -104,7 +106,8 @@ export function Itinerary() {
       events: [
         {
           time: '12:40 AM',
-          description: lang === 'es' ? 'Vuelo de Salida - Juan, Kelly' : 'Departure Flight - Juan, Kelly',
+          description: lang === 'es' ? 'Vuelo de Salida' : 'Departure Flight',
+          participants: lang === 'es' ? 'Juan David y Kelly' : 'Juan David, Kelly',
           flight: {
             airline: 'United Airlines',
             flightNumber: 'UA559',
@@ -112,12 +115,13 @@ export function Itinerary() {
             departure: '12:40 AM',
             arrival: '6:40 AM',
             aircraft: 'Boeing 737 Max 8',
-            passengers: ['Juan', 'Kelly'],
+            passengers: ['Juan David', 'Kelly'],
           },
         },
         {
           time: '10:55 AM',
-          description: lang === 'es' ? 'Vuelo de Conexión - Juan, Kelly' : 'Connecting Flight - Juan, Kelly',
+          description: lang === 'es' ? 'Vuelo de Conexión' : 'Connecting Flight',
+          participants: lang === 'es' ? 'Juan David y Kelly' : 'Juan David, Kelly',
           flight: {
             airline: 'United Airlines',
             flightNumber: 'UA4172',
@@ -125,7 +129,7 @@ export function Itinerary() {
             departure: '10:55 AM',
             arrival: '12:24 PM',
             aircraft: 'Bombardier CRJ550',
-            passengers: ['Juan', 'Kelly'],
+            passengers: ['Juan David', 'Kelly'],
           },
         },
       ],
@@ -153,7 +157,7 @@ export function Itinerary() {
           {itineraryItems.map((day, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 p-8 md:p-10 border border-gray-200/60"
+              className="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 p-4 md:p-10 border border-gray-200/60"
             >
               <div className="flex items-center gap-4 mb-8">
                 <div className="p-2 bg-primary/10 rounded-lg">
@@ -167,7 +171,7 @@ export function Itinerary() {
                 </div>
               </div>
 
-              <div className="relative pl-6">
+              <div className="relative pl-3 md:pl-6">
                 {/* Events with bullets */}
                 <div className="space-y-6 relative">
                   {day.events.map((event, eventIndex) => {
@@ -185,14 +189,14 @@ export function Itinerary() {
                         className="relative"
                       >
                         {/* Bullet point - aligned with center of first line (time/activity) */}
-                        <div className="absolute left-[10px] top-[0.8125rem] z-20 flex-shrink-0" style={{ transform: 'translateX(-50%) translateY(-50%)' }}>
+                        <div className="absolute left-[6px] md:left-[10px] top-[0.8125rem] z-20 flex-shrink-0" style={{ transform: 'translateX(-50%) translateY(-50%)' }}>
                           <div className="w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-white shadow-sm" />
                         </div>
                         
                         {/* Vertical dashed line segment - extends from bullet center to next event's bullet center */}
                         {day.events.length > 1 && !isLastEvent && (
                           <div 
-                            className="absolute left-[10px] w-[1px] z-0" 
+                            className="absolute left-[6px] md:left-[10px] w-[1px] z-0" 
                             style={{ 
                               top: '0.8125rem',
                               backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
@@ -204,50 +208,59 @@ export function Itinerary() {
                         )}
                         
                         {/* Content wrapper - contains time, activity, and expanded content */}
-                        <div className="ml-6 md:ml-6 min-w-0">
+                        <div className="ml-4 md:ml-6 min-w-0">
                           {/* First line: time and activity name - fixed height container for alignment */}
-                          <div className="flex flex-row items-center gap-2 sm:gap-3 flex-nowrap min-h-[1.625rem]">
+                          <div className="flex flex-row items-start gap-2 sm:gap-3 flex-nowrap min-h-[1.625rem]">
                             {event.time && (
-                              <span className="font-semibold text-text-primary text-base tracking-wide whitespace-nowrap leading-relaxed flex-shrink-0">
+                              <span className="font-semibold text-text-primary text-base tracking-wide whitespace-nowrap leading-relaxed flex-shrink-0 pt-0.5">
                                 {event.time}
                               </span>
                             )}
                             <div className="flex-1 min-w-0">
-                              {hasRentalCar ? (
-                                <button
-                                  onClick={() => toggleRentalCar(eventId)}
-                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
-                                >
-                                  <Car className="w-4 h-4 flex-shrink-0" />
-                                  <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
-                                  <span className="flex-shrink-0">
-                                    {isRentalExpanded ? (
-                                      <ChevronUp className="w-4 h-4" />
-                                    ) : (
-                                      <ChevronDown className="w-4 h-4" />
-                                    )}
-                                  </span>
-                                </button>
-                              ) : hasFlight ? (
-                                <button
-                                  onClick={() => toggleFlight(eventId)}
-                                  className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
-                                >
-                                  <Plane className="w-4 h-4 flex-shrink-0" />
-                                  <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
-                                  <span className="flex-shrink-0">
-                                    {isFlightExpanded ? (
-                                      <ChevronUp className="w-4 h-4" />
-                                    ) : (
-                                      <ChevronDown className="w-4 h-4" />
-                                    )}
-                                  </span>
-                                </button>
-                              ) : (
-                                <span className="text-text-primary text-base leading-relaxed break-words font-medium">
-                                  {event.description}
-                                </span>
-                              )}
+                              <div className="flex flex-col">
+                                <div className="flex items-center gap-2">
+                                  {hasRentalCar ? (
+                                    <button
+                                      onClick={() => toggleRentalCar(eventId)}
+                                      className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
+                                    >
+                                      <Car className="w-4 h-4 flex-shrink-0" />
+                                      <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
+                                      <span className="flex-shrink-0">
+                                        {isRentalExpanded ? (
+                                          <ChevronUp className="w-4 h-4" />
+                                        ) : (
+                                          <ChevronDown className="w-4 h-4" />
+                                        )}
+                                      </span>
+                                    </button>
+                                  ) : hasFlight ? (
+                                    <button
+                                      onClick={() => toggleFlight(eventId)}
+                                      className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
+                                    >
+                                      <Plane className="w-4 h-4 flex-shrink-0" />
+                                      <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
+                                      <span className="flex-shrink-0">
+                                        {isFlightExpanded ? (
+                                          <ChevronUp className="w-4 h-4" />
+                                        ) : (
+                                          <ChevronDown className="w-4 h-4" />
+                                        )}
+                                      </span>
+                                    </button>
+                                  ) : (
+                                    <span className="text-text-primary text-base leading-relaxed break-words font-medium">
+                                      {event.description}
+                                    </span>
+                                  )}
+                                </div>
+                                {event.participants && (
+                                  <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed">
+                                    {event.participants}
+                                  </p>
+                                )}
+                              </div>
                             </div>
                           </div>
                           
@@ -314,7 +327,14 @@ export function Itinerary() {
                                         <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                           {lang === 'es' ? 'Pasajeros' : 'Passengers'}
                                         </p>
-                                        <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.passengers.join(', ')}</p>
+                                        <p className="text-sm text-text-primary leading-relaxed break-words">
+                                          {lang === 'es' 
+                                            ? event.flight.passengers.length === 2 
+                                              ? event.flight.passengers.join(' y ')
+                                              : event.flight.passengers.slice(0, -1).join(', ') + ' y ' + event.flight.passengers[event.flight.passengers.length - 1]
+                                            : event.flight.passengers.join(', ')
+                                          }
+                                        </p>
                                       </div>
                                     </div>
                                   )}

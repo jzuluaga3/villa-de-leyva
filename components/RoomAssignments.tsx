@@ -26,7 +26,7 @@ export function RoomAssignments() {
         { type: 'single', count: 2 },
       ],
       guests: [
-        lang === 'es' ? 'Juan Diego & Valentina' : 'Juan Diego & Valentina',
+        lang === 'es' ? 'Juan Diego y Valentina' : 'Juan Diego & Valentina',
         'Marly',
         lang === 'es' ? 'Mama de Valentina' : 'Valentina\'s Mom',
       ],
@@ -38,7 +38,7 @@ export function RoomAssignments() {
         { type: 'single', count: 3 },
       ],
       guests: [
-        'Cesar & Angelica',
+        lang === 'es' ? 'Cesar y Angelica' : 'Cesar & Angelica',
         'David Felipe',
         'Gabby',
         lang === 'es' ? 'Abuelo David' : 'Grandfather David',
@@ -51,7 +51,7 @@ export function RoomAssignments() {
         { type: 'single', count: 1 },
       ],
       guests: [
-        'Cliff & Marcela',
+        lang === 'es' ? 'Cliff y Marcela' : 'Cliff & Marcela',
         lang === 'es' ? 'Tia Obeida' : 'Aunt Obeida',
       ],
     },
@@ -61,7 +61,7 @@ export function RoomAssignments() {
         { type: 'double', count: 1 },
       ],
       guests: [
-        'Juan & Kelly',
+        lang === 'es' ? 'Juan David y Kelly' : 'Juan David & Kelly',
       ],
     },
     {
@@ -71,7 +71,7 @@ export function RoomAssignments() {
         { type: 'single', count: 1 },
       ],
       guests: [
-        'Truman & Annie',
+        lang === 'es' ? 'Truman y Annie' : 'Truman & Annie',
         lang === 'es' ? 'Mama de Annie' : 'Annie\'s Mom',
       ],
     },
