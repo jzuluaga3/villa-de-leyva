@@ -9,13 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#FF5A5F',
-        'text-primary': '#484848',
-        'text-secondary': '#767676',
-        border: '#EBEBEB',
+        primary: {
+          DEFAULT: '#FF5A5F',
+          hover: '#FF4A50',
+          light: '#FFE5E6',
+        },
+        'text-primary': '#1F1F1F',
+        'text-secondary': '#6B7280',
+        border: '#E5E7EB',
       },
       fontFamily: {
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
+      boxShadow: {
+        'card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        'card-hover': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        'card-lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+      },
+      transitionDuration: {
+        '400': '400ms',
       },
     },
   },

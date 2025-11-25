@@ -130,19 +130,20 @@ export function SubNavigation({ items }: SubNavigationProps) {
   };
 
   return (
-    <nav className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-1 overflow-x-auto py-3 scrollbar-hide">
+    <nav className="sticky top-16 md:top-18 z-40 bg-white/99 backdrop-blur-lg border-b border-gray-200/80 shadow-md">
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-2 overflow-x-auto py-3.5 scrollbar-hide">
           {items.map((item) => (
             <a
               key={item.id}
               href={`${pathname}#${item.id}`}
               onClick={(e) => handleClick(item.id, e)}
               className={cn(
-                'px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all duration-200 cursor-pointer',
+                'px-5 py-2.5 text-sm font-semibold rounded-lg whitespace-nowrap transition-all duration-300 cursor-pointer relative',
                 activeSection === item.id
-                  ? 'bg-primary text-white shadow-sm hover:bg-primary/90'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'
+                  ? 'bg-gradient-to-r from-primary to-primary-hover text-white shadow-md hover:shadow-lg scale-105'
+                  : 'text-text-primary hover:text-text-primary hover:bg-gray-100/90 active:scale-95 bg-white/60 shadow-sm'
               )}
             >
               {item.label}

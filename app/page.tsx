@@ -7,6 +7,7 @@ import { Itinerary } from '@/components/Itinerary';
 import { RoomAssignments } from '@/components/RoomAssignments';
 import { Weather } from '@/components/Weather';
 import { SubNavigation } from '@/components/SubNavigation';
+import { ImageGallery } from '@/components/ImageGallery';
 import { shouldShowCountdown } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useI18n } from '@/lib/i18n-context';
@@ -30,13 +31,14 @@ export default function Home() {
     { id: 'itinerary', label: getTranslation(lang, 'itinerary') },
     { id: 'rooms', label: getTranslation(lang, 'roomAssignments') },
     { id: 'weather', label: getTranslation(lang, 'weather') },
+    { id: 'gallery', label: lang === 'es' ? 'Galería' : 'Gallery' },
   ];
 
   return (
     <>
       <SubNavigation items={subNavItems} />
       <Hero />
-      <section id="trip-info" className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
+      <section id="trip-info" className="py-12 md:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50/50">
         <div className="max-w-6xl mx-auto">
           <div className={`grid grid-cols-1 gap-6 ${showCountdown ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
             <TripInfo />
@@ -52,6 +54,9 @@ export default function Home() {
       </div>
       <div id="weather">
         <Weather />
+      </div>
+      <div id="gallery">
+        <ImageGallery />
       </div>
     </>
   );

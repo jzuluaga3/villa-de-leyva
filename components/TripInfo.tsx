@@ -14,40 +14,42 @@ export function TripInfo() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200 h-full">
-      <div className="flex items-center gap-3 mb-6">
-        <MapPin className="w-6 h-6 text-primary" />
-        <h2 className="text-2xl font-semibold text-text-primary">
+    <div className="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 p-8 md:p-10 border border-gray-200/60 h-full">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="p-2 bg-primary/10 rounded-lg">
+          <MapPin className="w-6 h-6 text-primary" />
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold text-text-primary">
           {getTranslation(lang, 'tripInfo')}
         </h2>
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <p className="text-sm font-medium text-text-secondary mb-1">
+      <div className="space-y-6">
+        <div className="pb-4 border-b border-gray-100">
+          <p className="text-xs uppercase tracking-wider font-semibold text-text-secondary mb-2">
             {getTranslation(lang, 'address')}
           </p>
-          <p className="text-base text-text-primary">Villa de Leyva, Boyacá, Colombia</p>
+          <p className="text-lg text-text-primary font-medium">Villa de Leyva, Boyacá, Colombia</p>
         </div>
 
-        <div className="pt-4 border-t border-gray-200">
+        <div className="pt-2">
           <button
             onClick={toggleArrivalDeparture}
-            className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left mb-4"
+            className="flex items-center gap-3 text-text-primary text-base leading-relaxed hover:text-primary transition-all duration-200 w-full text-left mb-4 group"
           >
-            <Calendar className="w-5 h-5" />
+            <Calendar className="w-5 h-5 group-hover:scale-110 transition-transform" />
             <span className="font-semibold">
               {lang === 'es' ? 'Llegada / Salida' : 'Arrival / Departure'}
             </span>
             {expandedArrivalDeparture ? (
-              <ChevronUp className="w-4 h-4 ml-auto" />
+              <ChevronUp className="w-4 h-4 ml-auto group-hover:scale-110 transition-transform" />
             ) : (
-              <ChevronDown className="w-4 h-4 ml-auto" />
+              <ChevronDown className="w-4 h-4 ml-auto group-hover:scale-110 transition-transform" />
             )}
           </button>
 
           {expandedArrivalDeparture && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
+            <div className="mt-4 p-5 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200/60 shadow-sm space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="flex items-start gap-2">
                 <Calendar className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                 <div className="flex-1">

@@ -141,10 +141,10 @@ export function Itinerary() {
   };
 
   return (
-    <section className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-gray-50">
+    <section className="py-12 md:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 to-white">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold text-text-primary text-center">
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-text-primary text-center">
             {getTranslation(lang, 'itinerary')}
           </h2>
         </div>
@@ -153,14 +153,16 @@ export function Itinerary() {
           {itineraryItems.map((day, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-md p-8 border border-gray-200"
+              className="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 p-8 md:p-10 border border-gray-200/60"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <Calendar className="w-5 h-5 text-primary" />
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Calendar className="w-6 h-6 text-primary" />
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-text-primary">{day.date}</h3>
+                  <h3 className="text-xl md:text-2xl font-bold text-text-primary">{day.date}</h3>
                   {day.subtitle && (
-                    <p className="text-sm text-text-secondary mt-1">{day.subtitle}</p>
+                    <p className="text-sm text-text-secondary mt-1 font-medium">{day.subtitle}</p>
                   )}
                 </div>
               </div>
@@ -195,72 +197,74 @@ export function Itinerary() {
                           </div>
                           
                           {/* Content */}
-                          <div className="flex-1 ml-6 md:ml-6">
-                            <div className="flex items-baseline gap-3 flex-wrap md:flex-nowrap">
+                          <div className="flex-1 ml-6 md:ml-6 min-w-0">
+                            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
                               {event.time && (
-                                <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap leading-normal">
+                                <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap leading-normal flex-shrink-0">
                                   {event.time}
                                 </span>
                               )}
-                              {hasRentalCar ? (
-                                <button
-                                  onClick={() => toggleRentalCar(eventId)}
-                                  className="flex items-baseline gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors flex-wrap"
-                                >
-                                  <Car className="w-4 h-4 flex-shrink-0 self-center" />
-                                  <span className="font-semibold break-words min-w-0 flex-1 leading-normal">{event.description}</span>
-                                  {isRentalExpanded ? (
-                                    <ChevronUp className="w-4 h-4 flex-shrink-0 self-center" />
-                                  ) : (
-                                    <ChevronDown className="w-4 h-4 flex-shrink-0 self-center" />
-                                  )}
-                                </button>
-                              ) : hasFlight ? (
-                                <button
-                                  onClick={() => toggleFlight(eventId)}
-                                  className="flex items-baseline md:items-baseline gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors flex-wrap md:flex-nowrap w-full text-left"
-                                >
-                                  <Plane className="w-4 h-4 flex-shrink-0 self-center" />
-                                  {(() => {
-                                    const parts = event.description.split(' - ');
-                                    const flightType = parts[0];
-                                    const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
-                                    return (
-                                      <>
-                                        {/* Mobile: Split layout */}
-                                        <div className="md:hidden flex-1 min-w-0">
-                                          <div className="flex items-baseline gap-2 flex-wrap">
-                                            <span className="font-semibold break-words leading-normal">{flightType}</span>
-                                            {isFlightExpanded ? (
-                                              <ChevronUp className="w-4 h-4 flex-shrink-0 self-center" />
-                                            ) : (
-                                              <ChevronDown className="w-4 h-4 flex-shrink-0 self-center" />
+                              <div className="flex-1 min-w-0">
+                                {hasRentalCar ? (
+                                  <button
+                                    onClick={() => toggleRentalCar(eventId)}
+                                    className="flex items-center gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left group"
+                                  >
+                                    <Car className="w-4 h-4 flex-shrink-0" />
+                                    <span className="font-semibold break-words min-w-0 flex-1 leading-normal">{event.description}</span>
+                                    {isRentalExpanded ? (
+                                      <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                    ) : (
+                                      <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                    )}
+                                  </button>
+                                ) : hasFlight ? (
+                                  <button
+                                    onClick={() => toggleFlight(eventId)}
+                                    className="flex items-center gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left"
+                                  >
+                                    <Plane className="w-4 h-4 flex-shrink-0" />
+                                    {(() => {
+                                      const parts = event.description.split(' - ');
+                                      const flightType = parts[0];
+                                      const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
+                                      return (
+                                        <>
+                                          {/* Mobile: Split layout */}
+                                          <div className="md:hidden flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                              <span className="font-semibold break-words leading-normal">{flightType}</span>
+                                              {isFlightExpanded ? (
+                                                <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                              ) : (
+                                                <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                              )}
+                                            </div>
+                                            {passengers && (
+                                              <div className="mt-0.5">
+                                                <span className="font-semibold break-words leading-normal">{passengers}</span>
+                                              </div>
                                             )}
                                           </div>
-                                          {passengers && (
-                                            <div className="mt-0.5">
-                                              <span className="font-semibold break-words leading-normal">{passengers}</span>
-                                            </div>
-                                          )}
-                                        </div>
-                                        {/* Desktop: Single line like rental car */}
-                                        <span className="hidden md:inline font-semibold break-words min-w-0 flex-1 leading-normal">{event.description}</span>
-                                        <span className="hidden md:inline">
-                                          {isFlightExpanded ? (
-                                            <ChevronUp className="w-4 h-4 flex-shrink-0 self-center" />
-                                          ) : (
-                                            <ChevronDown className="w-4 h-4 flex-shrink-0 self-center" />
-                                          )}
-                                        </span>
-                                      </>
-                                    );
-                                  })()}
-                                </button>
-                              ) : (
-                                <span className="text-text-primary text-base leading-normal">
-                                  {event.description}
-                                </span>
-                              )}
+                                          {/* Desktop: Single line with chevron close to text */}
+                                          <div className="hidden md:flex items-center gap-2 flex-1 min-w-0">
+                                            <span className="font-semibold break-words leading-normal">{event.description}</span>
+                                            {isFlightExpanded ? (
+                                              <ChevronUp className="w-4 h-4 flex-shrink-0" />
+                                            ) : (
+                                              <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                                            )}
+                                          </div>
+                                        </>
+                                      );
+                                    })()}
+                                  </button>
+                                ) : (
+                                  <span className="text-text-primary text-base leading-normal break-words">
+                                    {event.description}
+                                  </span>
+                                )}
+                              </div>
                             </div>
                             
                             {/* Flight Details */}

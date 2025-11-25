@@ -4,16 +4,24 @@
 
 :root {
   --primary: #FF5A5F;
+  --primary-hover: #FF4A50;
   --background: #FFFFFF;
-  --text-primary: #484848;
-  --text-secondary: #767676;
-  --border: #EBEBEB;
+  --background-alt: #FAFAFA;
+  --text-primary: #1F1F1F;
+  --text-secondary: #6B7280;
+  --border: #E5E7EB;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
 body {
   color: var(--text-primary);
   background: var(--background);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -38,5 +46,23 @@ body {
   /* Offset for anchor links with sticky nav */
   section[id] {
     scroll-margin-top: 80px;
+  }
+
+  /* Modern card shadow */
+  .card-shadow {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .card-shadow-hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, #FF5A5F 0%, #FF4A50 100%);
+  }
+
+  .gradient-subtle {
+    background: linear-gradient(to bottom, #FAFAFA 0%, #FFFFFF 100%);
   }
 }

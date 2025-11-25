@@ -75,7 +75,7 @@ export function ImageCarousel({ images, alt, className }: ImageCarouselProps) {
 
   if (validImages.length === 1) {
     return (
-      <div className={cn('relative w-full h-48 overflow-hidden rounded-lg', className)}>
+      <div className={cn('relative w-full h-48 overflow-hidden rounded-t-lg', className)}>
         <Image
           src={validImages[0]}
           alt={alt}
@@ -90,7 +90,7 @@ export function ImageCarousel({ images, alt, className }: ImageCarouselProps) {
 
   return (
     <div 
-      className={cn('relative w-full h-48 overflow-hidden rounded-lg group', className)}
+      className={cn('relative w-full h-48 overflow-hidden rounded-t-lg group', className)}
     >
       {/* Main Image */}
       <div className="relative w-full h-full">

@@ -86,21 +86,21 @@ export function RoomAssignments() {
   };
 
   return (
-    <section className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
+    <section className="py-12 md:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50/50">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold text-text-primary text-center">
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-text-primary text-center">
             {getTranslation(lang, 'roomAssignments')}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {rooms.map((room) => (
             <div
               key={room.number}
-              className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 p-6 md:p-8 border border-gray-200/60 transform hover:-translate-y-1"
             >
-              <h3 className="text-xl font-semibold text-text-primary mb-4">
+              <h3 className="text-xl md:text-2xl font-bold text-text-primary mb-6">
                 {getTranslation(lang, 'bedroom')} {room.number}
               </h3>
 
