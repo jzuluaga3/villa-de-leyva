@@ -258,54 +258,70 @@ export function Itinerary() {
                               </span>
                             )}
                             <div className="flex-1 min-w-0">
-                              <div className="flex flex-col">
-                                <div className="flex items-center gap-2">
-                                  {hasRentalCar ? (
-                                    <button
-                                      onClick={() => toggleRentalCar(eventId)}
-                                      className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
-                                    >
-                                      <Car className="w-4 h-4 flex-shrink-0" />
-                                      <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
-                                      <span className="flex-shrink-0">
-                                        {isRentalExpanded ? (
-                                          <ChevronUp className="w-4 h-4" />
-                                        ) : (
-                                          <ChevronDown className="w-4 h-4" />
-                                        )}
-                                      </span>
-                                    </button>
-                                  ) : hasFlight ? (
-                                    <button
-                                      onClick={() => toggleFlight(eventId)}
-                                      className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
-                                    >
-                                      <Plane className="w-4 h-4 flex-shrink-0" />
-                                      <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
-                                      <span className="flex-shrink-0">
-                                        {isFlightExpanded ? (
-                                          <ChevronUp className="w-4 h-4" />
-                                        ) : (
-                                          <ChevronDown className="w-4 h-4" />
-                                        )}
-                                      </span>
-                                    </button>
-                                  ) : (() => {
-                                    const ActivityIcon = getActivityIcon(event);
-                                    return (
-                                      <span className="flex items-center gap-2 text-text-primary text-base leading-relaxed break-words font-medium">
-                                        {ActivityIcon && <ActivityIcon className="w-4 h-4 flex-shrink-0" />}
-                                        <span>{event.description}</span>
-                                      </span>
-                                    );
-                                  })()}
+                              {hasRentalCar ? (
+                                <button
+                                  onClick={() => toggleRentalCar(eventId)}
+                                  className="flex flex-col w-full text-left group hover:text-primary transition-colors"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <Car className="w-4 h-4 flex-shrink-0 text-text-primary group-hover:text-primary transition-colors" />
+                                    <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base text-text-primary group-hover:text-primary transition-colors">{event.description}</span>
+                                    <span className="flex-shrink-0 text-text-primary group-hover:text-primary transition-colors">
+                                      {isRentalExpanded ? (
+                                        <ChevronUp className="w-4 h-4" />
+                                      ) : (
+                                        <ChevronDown className="w-4 h-4" />
+                                      )}
+                                    </span>
+                                  </div>
+                                  {event.participants && (
+                                    <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed group-hover:text-primary transition-colors">
+                                      {event.participants}
+                                    </p>
+                                  )}
+                                </button>
+                              ) : hasFlight ? (
+                                <button
+                                  onClick={() => toggleFlight(eventId)}
+                                  className="flex flex-col w-full text-left group hover:text-primary transition-colors"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <Plane className="w-4 h-4 flex-shrink-0 text-text-primary group-hover:text-primary transition-colors" />
+                                    <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base text-text-primary group-hover:text-primary transition-colors">{event.description}</span>
+                                    <span className="flex-shrink-0 text-text-primary group-hover:text-primary transition-colors">
+                                      {isFlightExpanded ? (
+                                        <ChevronUp className="w-4 h-4" />
+                                      ) : (
+                                        <ChevronDown className="w-4 h-4" />
+                                      )}
+                                    </span>
+                                  </div>
+                                  {event.participants && (
+                                    <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed group-hover:text-primary transition-colors">
+                                      {event.participants}
+                                    </p>
+                                  )}
+                                </button>
+                              ) : (
+                                <div className="flex flex-col">
+                                  <div className="flex items-center gap-2">
+                                    {(() => {
+                                      const ActivityIcon = getActivityIcon(event);
+                                      return (
+                                        <span className="flex items-center gap-2 text-text-primary text-base leading-relaxed break-words font-medium">
+                                          {ActivityIcon && <ActivityIcon className="w-4 h-4 flex-shrink-0" />}
+                                          <span>{event.description}</span>
+                                        </span>
+                                      );
+                                    })()}
+                                  </div>
+                                  {event.participants && (
+                                    <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed">
+                                      {event.participants}
+                                    </p>
+                                  )}
                                 </div>
-                                {event.participants && (
-                                  <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed">
-                                    {event.participants}
-                                  </p>
-                                )}
-                              </div>
+                              )}
                             </div>
                           </div>
                           
