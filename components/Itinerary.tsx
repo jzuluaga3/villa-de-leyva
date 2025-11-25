@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, ChevronDown, ChevronUp, Car, MapPin, Plane, Route, Clock, Users, Building } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronUp, Car, MapPin, Plane, Route, Clock, Users, Building, Navigation, Home, UtensilsCrossed, Sparkles } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
 import { cn } from '@/lib/utils';
@@ -51,6 +51,11 @@ export function Itinerary() {
     {
       date: lang === 'es' ? 'Martes, 30 de Diciembre, 2025' : 'Tuesday, December 30, 2025',
       events: [
+        {
+          time: '7:45 AM',
+          description: lang === 'es' ? 'Salida hacia el Aeropuerto' : 'Departure to Airport',
+          participants: lang === 'es' ? 'Juan David, Kelly, Cliff y Marcela' : 'Juan David, Kelly, Cliff, Marcela',
+        },
         {
           time: '9:50 AM',
           description: lang === 'es' ? 'Vuelo de Llegada' : 'Arrival Flight',
@@ -142,6 +147,42 @@ export function Itinerary() {
 
   const toggleFlight = (eventId: string) => {
     setExpandedFlight(expandedFlight === eventId ? null : eventId);
+  };
+
+  const getActivityIcon = (event: Event) => {
+    // If it has flight or rental car, those are handled separately
+    if (event.flight) return null; // Flight icon is shown in button
+    if (event.rentalCar) return null; // Car icon is shown in button
+    
+    const desc = event.description.toLowerCase();
+    const descEs = lang === 'es' ? desc : '';
+    
+    // Airport departure
+    if (desc.includes('departure to airport') || desc.includes('salida hacia el aeropuerto') || desc.includes('salida hacia')) {
+      return Navigation;
+    }
+    
+    // Check-in / Check-out
+    if (desc.includes('check-in') || desc.includes('check-out') || desc.includes('checkin') || desc.includes('checkout')) {
+      return Home;
+    }
+    
+    // Dinner / Cena
+    if (desc.includes('dinner') || desc.includes('cena')) {
+      return UtensilsCrossed;
+    }
+    
+    // New Year / Año Nuevo
+    if (desc.includes('new year') || desc.includes('año nuevo') || desc.includes('celebración')) {
+      return Sparkles;
+    }
+    
+    // Default icon for other timed activities
+    if (event.time) {
+      return Clock;
+    }
+    
+    return null;
   };
 
   return (
@@ -249,11 +290,15 @@ export function Itinerary() {
                                         )}
                                       </span>
                                     </button>
-                                  ) : (
-                                    <span className="text-text-primary text-base leading-relaxed break-words font-medium">
-                                      {event.description}
-                                    </span>
-                                  )}
+                                  ) : (() => {
+                                    const ActivityIcon = getActivityIcon(event);
+                                    return (
+                                      <span className="flex items-center gap-2 text-text-primary text-base leading-relaxed break-words font-medium">
+                                        {ActivityIcon && <ActivityIcon className="w-4 h-4 flex-shrink-0" />}
+                                        <span>{event.description}</span>
+                                      </span>
+                                    );
+                                  })()}
                                 </div>
                                 {event.participants && (
                                   <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed">
