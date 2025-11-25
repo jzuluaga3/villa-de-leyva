@@ -83,14 +83,14 @@ export function Navigation() {
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value as Language)}
-                className="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-1.5 text-sm font-medium text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 cursor-pointer hover:border-gray-400 shadow-sm"
+                className="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-5 py-1.5 text-sm font-medium text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 cursor-pointer hover:border-gray-400 shadow-sm"
                 aria-label="Select language"
               >
                 <option value="es">🇨🇴 ES</option>
                 <option value="en">🇺🇸 EN</option>
               </select>
               <ChevronDown 
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none" 
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none" 
                 aria-hidden="true"
               />
             </div>
