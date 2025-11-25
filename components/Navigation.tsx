@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { MapPin } from 'lucide-react';
 import { getTranslation, type Language } from '@/lib/translations';
@@ -17,7 +18,20 @@ export function Navigation() {
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-18">
-          <div className="flex items-center gap-6 sm:gap-8">
+          <div className="flex items-center gap-[18px] sm:gap-6">
+            <Link
+              href="/"
+              className="flex items-center transition-opacity duration-200 hover:opacity-80"
+              aria-label="Home"
+            >
+              <Image
+                src="/favicon.png"
+                alt="Villa de Leyva"
+                width={60}
+                height={60}
+                className="w-[60px] h-[60px] rounded"
+              />
+            </Link>
             <Link
               href="/"
               className={cn(

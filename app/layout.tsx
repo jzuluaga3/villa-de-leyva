@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Viaje a Villa de Leyva',
   description: 'Información del viaje familiar de Año Nuevo a Villa de Leyva, Colombia',
   icons: {
-    icon: '/icon.jpg',
+    icon: '/favicon.png',
   },
 };
 
