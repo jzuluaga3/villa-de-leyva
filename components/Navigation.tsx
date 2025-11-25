@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { MapPin } from 'lucide-react';
+import { MapPin, ChevronDown } from 'lucide-react';
 import { getTranslation, type Language } from '@/lib/translations';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n-context';
@@ -78,34 +78,21 @@ export function Navigation() {
 
             <WeatherWidget />
 
-            <div className="flex items-center gap-0.5">
-              <button
-                onClick={() => setLang('es')}
-                className={cn(
-                  'flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium transition-all duration-200 rounded-lg',
-                  lang === 'es' 
-                    ? 'text-primary font-bold' 
-                    : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'
-                )}
-                aria-label="Switch to Spanish"
+            {/* Language dropdown - styled for all screen sizes */}
+            <div className="relative">
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value as Language)}
+                className="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-1.5 text-sm font-medium text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 cursor-pointer hover:border-gray-400 shadow-sm"
+                aria-label="Select language"
               >
-                <span>🇨🇴</span>
-                <span>ES</span>
-              </button>
-              <span className="text-gray-300">|</span>
-              <button
-                onClick={() => setLang('en')}
-                className={cn(
-                  'flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium transition-all duration-200 rounded-lg',
-                  lang === 'en' 
-                    ? 'text-primary font-bold' 
-                    : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'
-                )}
-                aria-label="Switch to English"
-              >
-                <span>🇺🇸</span>
-                <span>EN</span>
-              </button>
+                <option value="es">🇨🇴 ES</option>
+                <option value="en">🇺🇸 EN</option>
+              </select>
+              <ChevronDown 
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none" 
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
