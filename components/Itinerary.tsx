@@ -169,18 +169,7 @@ export function Itinerary() {
 
               <div className="relative pl-6">
                 {/* Events with bullets */}
-                <div className="space-y-5 relative">
-                  {/* Vertical dashed line - connects through bullet centers */}
-                  {day.events.length > 1 && (
-                    <div 
-                      className="absolute left-[10px] top-[9px] bottom-[9px] w-[1px] z-0 md:bottom-[9px]" 
-                      style={{ 
-                        backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
-                        backgroundSize: '1px 8px',
-                        transform: 'translateX(-50%)',
-                      }} 
-                    />
-                  )}
+                <div className="space-y-6 relative">
                   {day.events.map((event, eventIndex) => {
                     const eventId = `${index}-${eventIndex}`;
                     const isRentalExpanded = expandedRental === eventId;
@@ -188,26 +177,36 @@ export function Itinerary() {
                     const hasRentalCar = !!event.rentalCar;
                     const hasFlight = !!event.flight;
                     const isLastEvent = eventIndex === day.events.length - 1;
+                    const isFirstEvent = eventIndex === 0;
                     
                     return (
                       <div 
-                        key={eventIndex} 
-                        className={cn(
-                          "relative",
-                          isLastEvent && day.events.length > 1 && "md:after:hidden after:absolute after:left-[10px] after:top-[calc(0.8125rem+0.3125rem)] after:bottom-0 after:w-[2px] after:bg-white after:z-20 after:translate-x-[-50%]"
-                        )}
+                        key={eventIndex}
+                        className="relative"
                       >
-                        <div className="flex items-start gap-4">
-                          {/* Bullet point - aligned with first line of text */}
-                          <div className="absolute left-[10px] top-[0.8125rem] z-10 flex-shrink-0" style={{ transform: 'translateX(-50%) translateY(-50%)' }}>
+                        {/* Vertical dashed line segment - connects bullets */}
+                        {day.events.length > 1 && !isLastEvent && (
+                          <div 
+                            className="absolute left-[10px] top-1/2 w-[1px] z-0" 
+                            style={{ 
+                              backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
+                              backgroundSize: '1px 8px',
+                              transform: 'translateX(-50%)',
+                              height: 'calc(100% + 1.5rem)',
+                            }} 
+                          />
+                        )}
+                        <div className="flex items-center gap-4 min-h-[1.625rem]">
+                          {/* Bullet point - aligned with center of text line */}
+                          <div className="absolute left-[10px] top-1/2 z-20 flex-shrink-0" style={{ transform: 'translateX(-50%) translateY(-50%)' }}>
                             <div className="w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-white shadow-sm" />
                           </div>
                           
                           {/* Content */}
                           <div className="flex-1 ml-6 md:ml-6 min-w-0">
-                            <div className="flex flex-row items-baseline gap-2 sm:gap-3">
+                            <div className="flex flex-row items-center gap-2 sm:gap-3 flex-nowrap">
                               {event.time && (
-                                <span className="font-semibold text-text-primary text-base tracking-wide whitespace-nowrap leading-normal flex-shrink-0">
+                                <span className="font-semibold text-text-primary text-base tracking-wide whitespace-nowrap leading-relaxed flex-shrink-0">
                                   {event.time}
                                 </span>
                               )}
@@ -215,47 +214,35 @@ export function Itinerary() {
                                 {hasRentalCar ? (
                                   <button
                                     onClick={() => toggleRentalCar(eventId)}
-                                    className="flex items-center gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left group flex-wrap"
+                                    className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
                                   >
                                     <Car className="w-4 h-4 flex-shrink-0" />
-                                    <span className="font-medium break-words min-w-0 flex-1 leading-normal text-base">{event.description}</span>
-                                    {isRentalExpanded ? (
-                                      <ChevronUp className="w-4 h-4 flex-shrink-0" />
-                                    ) : (
-                                      <ChevronDown className="w-4 h-4 flex-shrink-0" />
-                                    )}
+                                    <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
+                                    <span className="flex-shrink-0">
+                                      {isRentalExpanded ? (
+                                        <ChevronUp className="w-4 h-4" />
+                                      ) : (
+                                        <ChevronDown className="w-4 h-4" />
+                                      )}
+                                    </span>
                                   </button>
                                 ) : hasFlight ? (
                                   <button
                                     onClick={() => toggleFlight(eventId)}
-                                    className="flex items-start gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left"
+                                    className="flex items-center gap-2 text-text-primary text-base leading-relaxed hover:text-primary transition-colors w-full text-left group"
                                   >
-                                    <Plane className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                                    {(() => {
-                                      const parts = event.description.split(' - ');
-                                      const flightType = parts[0];
-                                      const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
-                                      return (
-                                        <div className="flex-1 min-w-0">
-                                          <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="font-medium break-words leading-normal text-base">{flightType}</span>
-                                            {isFlightExpanded ? (
-                                              <ChevronUp className="w-4 h-4 flex-shrink-0" />
-                                            ) : (
-                                              <ChevronDown className="w-4 h-4 flex-shrink-0" />
-                                            )}
-                                          </div>
-                                          {passengers && (
-                                            <div className="mt-0.5">
-                                              <span className="font-medium break-words leading-normal text-base">{passengers}</span>
-                                            </div>
-                                          )}
-                                        </div>
-                                      );
-                                    })()}
+                                    <Plane className="w-4 h-4 flex-shrink-0" />
+                                    <span className="font-medium break-words min-w-0 flex-1 leading-relaxed text-base">{event.description}</span>
+                                    <span className="flex-shrink-0">
+                                      {isFlightExpanded ? (
+                                        <ChevronUp className="w-4 h-4" />
+                                      ) : (
+                                        <ChevronDown className="w-4 h-4" />
+                                      )}
+                                    </span>
                                   </button>
                                 ) : (
-                                  <span className="text-text-primary text-base leading-normal break-words font-medium">
+                                  <span className="text-text-primary text-base leading-relaxed break-words font-medium">
                                     {event.description}
                                   </span>
                                 )}
@@ -264,67 +251,67 @@ export function Itinerary() {
                             
                             {/* Flight Details */}
                             {hasFlight && isFlightExpanded && event.flight && (
-                              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
-                                <div className="space-y-2">
-                                  <div className="flex items-start gap-2">
+                              <div className="mt-5 p-5 bg-gray-50 rounded-lg border border-gray-200 space-y-4">
+                                <div className="space-y-3">
+                                  <div className="flex items-start gap-3">
                                     <Plane className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                         {lang === 'es' ? 'Aerolínea' : 'Airline'}
                                       </p>
-                                      <p className="text-sm text-text-primary">{event.flight.airline} {event.flight.flightNumber}</p>
+                                      <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.airline} {event.flight.flightNumber}</p>
                                     </div>
                                   </div>
                                   
-                                  <div className="flex items-start gap-2">
+                                  <div className="flex items-start gap-3">
                                     <Route className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                         {lang === 'es' ? 'Ruta' : 'Route'}
                                       </p>
-                                      <p className="text-sm text-text-primary">{event.flight.route}</p>
+                                      <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.route}</p>
                                     </div>
                                   </div>
                                   
-                                  <div className="grid grid-cols-2 gap-4">
-                                    <div className="flex items-start gap-2">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="flex items-start gap-3">
                                       <Clock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                      <div className="flex-1">
-                                        <p className="text-xs font-medium text-text-secondary mb-1">
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                           {lang === 'es' ? 'Salida' : 'Departure'}
                                         </p>
-                                        <p className="text-sm text-text-primary">{event.flight.departure}</p>
+                                        <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.departure}</p>
                                       </div>
                                     </div>
-                                    <div className="flex items-start gap-2">
+                                    <div className="flex items-start gap-3">
                                       <Clock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                      <div className="flex-1">
-                                        <p className="text-xs font-medium text-text-secondary mb-1">
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                           {lang === 'es' ? 'Llegada' : 'Arrival'}
                                         </p>
-                                        <p className="text-sm text-text-primary">{event.flight.arrival}</p>
+                                        <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.arrival}</p>
                                       </div>
                                     </div>
                                   </div>
                                   
-                                  <div className="flex items-start gap-2">
+                                  <div className="flex items-start gap-3">
                                     <Plane className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                         {lang === 'es' ? 'Aeronave' : 'Aircraft'}
                                       </p>
-                                      <p className="text-sm text-text-primary">{event.flight.aircraft}</p>
+                                      <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.aircraft}</p>
                                     </div>
                                   </div>
                                   
                                   {event.flight.passengers && event.flight.passengers.length > 0 && (
-                                    <div className="flex items-start gap-2">
+                                    <div className="flex items-start gap-3">
                                       <Users className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                      <div className="flex-1">
-                                        <p className="text-xs font-medium text-text-secondary mb-1">
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                           {lang === 'es' ? 'Pasajeros' : 'Passengers'}
                                         </p>
-                                        <p className="text-sm text-text-primary">{event.flight.passengers.join(', ')}</p>
+                                        <p className="text-sm text-text-primary leading-relaxed break-words">{event.flight.passengers.join(', ')}</p>
                                       </div>
                                     </div>
                                   )}
@@ -334,38 +321,38 @@ export function Itinerary() {
                             
                             {/* Expandable Rental Car Details */}
                             {hasRentalCar && isRentalExpanded && event.rentalCar && (
-                              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
-                                <div className="space-y-2">
-                                  <div className="flex items-start gap-2">
+                              <div className="mt-5 p-5 bg-gray-50 rounded-lg border border-gray-200 space-y-4">
+                                <div className="space-y-3">
+                                  <div className="flex items-start gap-3">
                                     <Building className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                         {lang === 'es' ? 'Empresa' : 'Company'}
                                       </p>
-                                      <p className="text-sm text-text-primary">{event.rentalCar.company}</p>
+                                      <p className="text-sm text-text-primary leading-relaxed break-words">{event.rentalCar.company}</p>
                                     </div>
                                   </div>
                                   
-                                  <div className="flex items-start gap-2">
+                                  <div className="flex items-start gap-3">
                                     <Car className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                         {getTranslation(lang, 'vehicle')}
                                       </p>
-                                      <p className="text-sm text-text-primary">{event.rentalCar.vehicle}</p>
-                                      <p className="text-xs text-text-secondary mt-1">
+                                      <p className="text-sm text-text-primary leading-relaxed break-words">{event.rentalCar.vehicle}</p>
+                                      <p className="text-xs text-text-secondary mt-1.5 leading-relaxed">
                                         {getTranslation(lang, 'transmission')}: {event.rentalCar.transmission}
                                       </p>
                                     </div>
                                   </div>
                                   
-                                  <div className="flex items-start gap-2">
+                                  <div className="flex items-start gap-3">
                                     <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                      <p className="text-xs font-medium text-text-secondary mb-1">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-semibold text-text-secondary mb-1.5 uppercase tracking-wide">
                                         {getTranslation(lang, 'location')}
                                       </p>
-                                      <p className="text-sm text-text-primary">{event.rentalCar.location}</p>
+                                      <p className="text-sm text-text-primary leading-relaxed break-words">{event.rentalCar.location}</p>
                                     </div>
                                   </div>
                                 </div>
