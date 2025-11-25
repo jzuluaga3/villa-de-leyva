@@ -18,7 +18,7 @@ export function Navigation() {
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-18">
-          <div className="flex items-center gap-[18px] sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-6 min-w-0">
             <Link
               href="/"
               className="flex items-center transition-opacity duration-200 hover:opacity-80"
@@ -29,7 +29,7 @@ export function Navigation() {
                 alt="Villa de Leyva"
                 width={60}
                 height={60}
-                className="w-[60px] h-[60px] rounded"
+                className="w-[60px] h-[60px] rounded object-contain flex-shrink-0"
               />
             </Link>
             <Link
@@ -62,7 +62,7 @@ export function Navigation() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             {googleMapsLink && (
               <a
                 href={googleMapsLink}
@@ -78,7 +78,7 @@ export function Navigation() {
 
             <WeatherWidget />
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5">
               <button
                 onClick={() => setLang('es')}
                 className={cn(

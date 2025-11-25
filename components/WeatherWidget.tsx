@@ -51,14 +51,17 @@ export function WeatherWidget() {
     return `${Math.round(celsius)}°C`;
   };
 
-  if (loading || !currentWeather) {
-    return null; // Don't show anything while loading or if there's an error
-  }
-
+  // Reserve space even when loading to prevent layout shift
   return (
-    <div className="flex items-center gap-1.5 text-sm">
-      <span className="text-lg">{getWeatherIcon(currentWeather.weatherCode)}</span>
-      <span className="font-medium text-text-primary">{formatTemp(currentWeather.temperature)}</span>
+    <div className="flex items-center gap-1.5 text-sm min-w-[60px]">
+      {loading || !currentWeather ? (
+        <span className="invisible text-lg">🌤️</span>
+      ) : (
+        <>
+          <span className="text-lg">{getWeatherIcon(currentWeather.weatherCode)}</span>
+          <span className="font-medium text-text-primary">{formatTemp(currentWeather.temperature)}</span>
+        </>
+      )}
     </div>
   );
 }

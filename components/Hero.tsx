@@ -8,7 +8,7 @@ export function Hero() {
   const { lang } = useI18n();
 
   return (
-    <section className="relative w-full h-[80vh] min-h-[500px] max-h-[700px] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] min-h-[400px] sm:min-h-[500px] max-h-[700px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
           src="/Reference/411b7bf9-e9e3-41ce-9b4c-02ee97b99572.avif"
