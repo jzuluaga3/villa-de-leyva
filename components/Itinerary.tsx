@@ -205,9 +205,9 @@ export function Itinerary() {
                           
                           {/* Content */}
                           <div className="flex-1 ml-6 md:ml-6 min-w-0">
-                            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+                            <div className="flex flex-row items-baseline gap-2 sm:gap-3">
                               {event.time && (
-                                <span className="font-semibold text-text-primary text-sm tracking-wide whitespace-nowrap leading-normal flex-shrink-0">
+                                <span className="font-semibold text-text-primary text-base tracking-wide whitespace-nowrap leading-normal flex-shrink-0">
                                   {event.time}
                                 </span>
                               )}
@@ -215,10 +215,10 @@ export function Itinerary() {
                                 {hasRentalCar ? (
                                   <button
                                     onClick={() => toggleRentalCar(eventId)}
-                                    className="flex items-center gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left group"
+                                    className="flex items-center gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left group flex-wrap"
                                   >
                                     <Car className="w-4 h-4 flex-shrink-0" />
-                                    <span className="font-semibold break-words min-w-0 flex-1 leading-normal">{event.description}</span>
+                                    <span className="font-medium break-words min-w-0 flex-1 leading-normal text-base">{event.description}</span>
                                     {isRentalExpanded ? (
                                       <ChevronUp className="w-4 h-4 flex-shrink-0" />
                                     ) : (
@@ -228,46 +228,34 @@ export function Itinerary() {
                                 ) : hasFlight ? (
                                   <button
                                     onClick={() => toggleFlight(eventId)}
-                                    className="flex items-center gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left"
+                                    className="flex items-start gap-2 text-text-primary text-base leading-normal hover:text-primary transition-colors w-full text-left"
                                   >
-                                    <Plane className="w-4 h-4 flex-shrink-0" />
+                                    <Plane className="w-4 h-4 flex-shrink-0 mt-0.5" />
                                     {(() => {
                                       const parts = event.description.split(' - ');
                                       const flightType = parts[0];
                                       const passengers = parts.length > 1 ? `- ${parts[1]}` : '';
                                       return (
-                                        <>
-                                          {/* Mobile: Split layout */}
-                                          <div className="md:hidden flex-1 min-w-0">
-                                            <div className="flex items-center gap-2">
-                                              <span className="font-semibold break-words leading-normal">{flightType}</span>
-                                              {isFlightExpanded ? (
-                                                <ChevronUp className="w-4 h-4 flex-shrink-0" />
-                                              ) : (
-                                                <ChevronDown className="w-4 h-4 flex-shrink-0" />
-                                              )}
-                                            </div>
-                                            {passengers && (
-                                              <div className="mt-0.5">
-                                                <span className="font-semibold break-words leading-normal">{passengers}</span>
-                                              </div>
-                                            )}
-                                          </div>
-                                          {/* Desktop: Single line with chevron close to text */}
-                                          <div className="hidden md:flex items-center gap-2 flex-1 min-w-0">
-                                            <span className="font-semibold break-words leading-normal">{event.description}</span>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="flex items-center gap-2 flex-wrap">
+                                            <span className="font-medium break-words leading-normal text-base">{flightType}</span>
                                             {isFlightExpanded ? (
                                               <ChevronUp className="w-4 h-4 flex-shrink-0" />
                                             ) : (
                                               <ChevronDown className="w-4 h-4 flex-shrink-0" />
                                             )}
                                           </div>
-                                        </>
+                                          {passengers && (
+                                            <div className="mt-0.5">
+                                              <span className="font-medium break-words leading-normal text-base">{passengers}</span>
+                                            </div>
+                                          )}
+                                        </div>
                                       );
                                     })()}
                                   </button>
                                 ) : (
-                                  <span className="text-text-primary text-base leading-normal break-words">
+                                  <span className="text-text-primary text-base leading-normal break-words font-medium">
                                     {event.description}
                                   </span>
                                 )}
