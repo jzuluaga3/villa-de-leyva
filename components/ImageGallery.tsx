@@ -16,6 +16,37 @@ const galleryImages = [
   '/Reference/fbbf7254-9260-42ae-a0f6-b36245bc3566.avif',
 ];
 
+const imageSubtitles = [
+  {
+    es: 'Vista Exterior de la Casa con Arquitectura Colonial',
+    en: 'Exterior View of the House with Colonial Architecture',
+  },
+  {
+    es: 'Espacio de Entretenimiento y Área Social',
+    en: 'Entertainment Space and Social Area',
+  },
+  {
+    es: 'Patio Interior con Estilo Colonial',
+    en: 'Indoor Patio Area with Colonial Style',
+  },
+  {
+    es: 'Cocina Moderna y Completamente Equipada',
+    en: 'Modern and Fully Equipped Kitchen',
+  },
+  {
+    es: 'Jardines Exteriores y Vista Panorámica de la Casa',
+    en: 'Outdoor Gardens and Landscape View of the House',
+  },
+  {
+    es: 'Terraza Exterior con Vistas Espectaculares',
+    en: 'Outdoor Patio with Spectacular Views',
+  },
+  {
+    es: 'Área de Comedor al Aire Libre',
+    en: 'Outdoor Dining Area',
+  },
+];
+
 export function ImageGallery() {
   const { lang } = useI18n();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -52,7 +83,7 @@ export function ImageGallery() {
 
   return (
     <>
-      <section className="py-12 md:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 to-white">
+      <section className="py-8 md:py-14 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 to-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
@@ -145,23 +176,30 @@ export function ImageGallery() {
           </button>
 
           <div
-            className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
+            className="relative max-w-7xl w-full h-full flex items-center justify-center pb-24"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              src={galleryImages[lightboxIndex]}
-              alt={lang === 'es' 
-                ? `Casa Villa de Leyva ${lightboxIndex + 1}` 
-                : `Villa de Leyva House ${lightboxIndex + 1}`}
-              fill
-              className="object-contain"
-              quality={95}
-              priority
-            />
+            <div className="relative w-full h-full max-h-[calc(90vh-120px)]">
+              <Image
+                src={galleryImages[lightboxIndex]}
+                alt={lang === 'es' 
+                  ? `Casa Villa de Leyva ${lightboxIndex + 1}` 
+                  : `Villa de Leyva House ${lightboxIndex + 1}`}
+                fill
+                className="object-contain"
+                quality={95}
+                priority
+              />
+            </div>
           </div>
 
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
-            {lightboxIndex + 1} / {galleryImages.length}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <p className="text-white text-base md:text-lg font-medium text-center px-4 max-w-2xl">
+              {imageSubtitles[lightboxIndex]?.[lang] || ''}
+            </p>
+            <div className="text-white/80 text-sm">
+              {lightboxIndex + 1} / {galleryImages.length}
+            </div>
           </div>
         </div>
       )}

@@ -140,7 +140,7 @@ export function Weather() {
 
   if (loading) {
     return (
-      <section className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-gray-50">
+      <section className="py-6 md:py-10 px-4 md:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200 text-center">
             <p className="text-text-secondary">{lang === 'es' ? 'Cargando clima...' : 'Loading weather...'}</p>
@@ -152,7 +152,7 @@ export function Weather() {
 
   if (error || weatherData.length === 0) {
     return (
-      <section className="py-8 md:py-16 px-4 md:px-6 lg:px-8 bg-gray-50">
+      <section className="py-6 md:py-10 px-4 md:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200 text-center">
             <p className="text-text-secondary">

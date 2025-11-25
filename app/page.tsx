@@ -38,7 +38,7 @@ export default function Home() {
     <>
       <SubNavigation items={subNavItems} />
       <Hero />
-      <section id="trip-info" className="py-12 md:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50/50">
+      <section id="trip-info" className="py-8 md:py-14 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50/50">
         <div className="max-w-6xl mx-auto">
           <div className={`grid grid-cols-1 gap-6 ${showCountdown ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
             <TripInfo />
