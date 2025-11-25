@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
@@ -19,6 +19,8 @@ export function SubNavigation({ items }: SubNavigationProps) {
   const [activeSection, setActiveSection] = useState<string>('');
   const pathname = usePathname();
   const { lang } = useI18n();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -114,6 +116,43 @@ export function SubNavigation({ items }: SubNavigationProps) {
     };
   }, [items, pathname]);
 
+  // Auto-scroll the sticky header to show the active section
+  useEffect(() => {
+    if (!activeSection || !scrollContainerRef.current) return;
+
+    const activeButton = buttonRefs.current.get(activeSection);
+    if (!activeButton) return;
+
+    const container = scrollContainerRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const buttonRect = activeButton.getBoundingClientRect();
+
+    // Check if button is outside the visible area (with some padding)
+    const padding = 10; // Small padding to ensure button is fully visible
+    const isButtonLeftOfContainer = buttonRect.left < containerRect.left + padding;
+    const isButtonRightOfContainer = buttonRect.right > containerRect.right - padding;
+
+    if (isButtonLeftOfContainer || isButtonRightOfContainer) {
+      // Calculate scroll position to center the button in the container
+      const buttonLeft = activeButton.offsetLeft;
+      const buttonWidth = activeButton.offsetWidth;
+      const containerWidth = container.clientWidth;
+      const currentScrollLeft = container.scrollLeft;
+      
+      // Calculate the position to center the button
+      const targetScrollLeft = buttonLeft - (containerWidth / 2) + (buttonWidth / 2);
+      
+      // Ensure we don't scroll beyond the container bounds
+      const maxScrollLeft = container.scrollWidth - containerWidth;
+      const finalScrollLeft = Math.max(0, Math.min(targetScrollLeft, maxScrollLeft));
+      
+      container.scrollTo({
+        left: finalScrollLeft,
+        behavior: 'smooth',
+      });
+    }
+  }, [activeSection]);
+
   const handleClick = (id: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const element = document.getElementById(id);
@@ -133,10 +172,20 @@ export function SubNavigation({ items }: SubNavigationProps) {
     <nav className="sticky top-16 md:top-18 z-40 bg-white/99 backdrop-blur-lg border-b border-gray-200/80 shadow-md">
       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 overflow-x-auto py-3.5 scrollbar-hide px-1">
+        <div 
+          ref={scrollContainerRef}
+          className="flex items-center gap-2 overflow-x-auto py-3.5 scrollbar-hide px-1"
+        >
           {items.map((item) => (
             <a
               key={item.id}
+              ref={(el) => {
+                if (el) {
+                  buttonRefs.current.set(item.id, el);
+                } else {
+                  buttonRefs.current.delete(item.id);
+                }
+              }}
               href={`${pathname}#${item.id}`}
               onClick={(e) => handleClick(item.id, e)}
               className={cn(
