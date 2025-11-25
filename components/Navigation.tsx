@@ -13,10 +13,6 @@ export function Navigation() {
   const pathname = usePathname();
   const googleMapsLink = process.env.NEXT_PUBLIC_GOOGLE_MAPS_LINK;
 
-  const toggleLanguage = () => {
-    setLang(lang === 'es' ? 'en' : 'es');
-  };
-
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,21 +64,35 @@ export function Navigation() {
 
             <WeatherWidget />
 
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-text-secondary hover:text-text-primary transition-all duration-200 rounded-lg hover:bg-gray-100"
-              aria-label="Toggle language"
-            >
-              <span className={cn(
-                'px-1.5 transition-all duration-200',
-                lang === 'es' ? 'text-primary font-bold' : ''
-              )}>ES</span>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setLang('es')}
+                className={cn(
+                  'flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium transition-all duration-200 rounded-lg',
+                  lang === 'es' 
+                    ? 'text-primary font-bold' 
+                    : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'
+                )}
+                aria-label="Switch to Spanish"
+              >
+                <span>🇨🇴</span>
+                <span>ES</span>
+              </button>
               <span className="text-gray-300">|</span>
-              <span className={cn(
-                'px-1.5 transition-all duration-200',
-                lang === 'en' ? 'text-primary font-bold' : ''
-              )}>EN</span>
-            </button>
+              <button
+                onClick={() => setLang('en')}
+                className={cn(
+                  'flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium transition-all duration-200 rounded-lg',
+                  lang === 'en' 
+                    ? 'text-primary font-bold' 
+                    : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'
+                )}
+                aria-label="Switch to English"
+              >
+                <span>🇺🇸</span>
+                <span>EN</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
