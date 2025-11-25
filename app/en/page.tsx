@@ -14,7 +14,7 @@ import { getTranslation } from '@/lib/translations';
 
 export default function Home() {
   const [showCountdown, setShowCountdown] = useState(false);
-  const lang = 'es';
+  const lang = 'en';
 
   useEffect(() => {
     setShowCountdown(shouldShowCountdown());
@@ -30,7 +30,7 @@ export default function Home() {
     { id: 'itinerary', label: getTranslation(lang, 'itinerary') },
     { id: 'rooms', label: getTranslation(lang, 'roomAssignments') },
     { id: 'weather', label: getTranslation(lang, 'weather') },
-    { id: 'gallery', label: lang === 'es' ? 'Galería' : 'Gallery' },
+    { id: 'gallery', label: 'Gallery' },
   ];
 
   return (
@@ -60,3 +60,4 @@ export default function Home() {
     </>
   );
 }
+

@@ -14,13 +14,21 @@ export function Navigation() {
   const pathname = usePathname();
   const googleMapsLink = process.env.NEXT_PUBLIC_GOOGLE_MAPS_LINK;
 
+  // Get language-aware URLs
+  const getHomeUrl = () => lang === 'en' ? '/en' : '/';
+  const getThingsToDoUrl = () => lang === 'en' ? '/en/things-to-do' : '/que-hacer';
+  
+  // Check if current pathname matches the active page
+  const isHomePage = pathname === '/' || pathname === '/en';
+  const isThingsToDoPage = pathname === '/que-hacer' || pathname === '/en/things-to-do';
+
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-18">
           <div className="flex items-center gap-3 sm:gap-6 min-w-0">
             <Link
-              href="/"
+              href={getHomeUrl()}
               className="flex items-center transition-opacity duration-200 hover:opacity-80"
               aria-label="Home"
             >
@@ -33,30 +41,30 @@ export function Navigation() {
               />
             </Link>
             <Link
-              href="/"
+              href={getHomeUrl()}
               className={cn(
                 'text-sm font-semibold transition-all duration-200 relative',
-                pathname === '/' 
+                isHomePage
                   ? 'text-primary' 
                   : 'text-text-secondary hover:text-text-primary'
               )}
             >
               {getTranslation(lang, 'home')}
-              {pathname === '/' && (
+              {isHomePage && (
                 <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
               )}
             </Link>
             <Link
-              href="/things-to-do"
+              href={getThingsToDoUrl()}
               className={cn(
                 'text-sm font-semibold transition-all duration-200 relative',
-                pathname === '/things-to-do'
+                isThingsToDoPage
                   ? 'text-primary'
                   : 'text-text-secondary hover:text-text-primary'
               )}
             >
               {getTranslation(lang, 'thingsToDo')}
-              {pathname === '/things-to-do' && (
+              {isThingsToDoPage && (
                 <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
               )}
             </Link>
