@@ -173,7 +173,7 @@ export function Itinerary() {
                   {/* Vertical dashed line - connects through bullet centers */}
                   {day.events.length > 1 && (
                     <div 
-                      className="absolute left-[10px] top-[9px] bottom-[9px] w-[1px] z-0" 
+                      className="absolute left-[10px] top-[9px] bottom-[9px] w-[1px] z-0 md:bottom-[9px]" 
                       style={{ 
                         backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 4px, #FF5A5F 4px, #FF5A5F 8px)',
                         backgroundSize: '1px 8px',
@@ -187,9 +187,16 @@ export function Itinerary() {
                     const isFlightExpanded = expandedFlight === eventId;
                     const hasRentalCar = !!event.rentalCar;
                     const hasFlight = !!event.flight;
+                    const isLastEvent = eventIndex === day.events.length - 1;
                     
                     return (
-                      <div key={eventIndex} className="relative">
+                      <div 
+                        key={eventIndex} 
+                        className={cn(
+                          "relative",
+                          isLastEvent && day.events.length > 1 && "md:after:hidden after:absolute after:left-[10px] after:top-[calc(0.8125rem+0.3125rem)] after:bottom-0 after:w-[2px] after:bg-white after:z-20 after:translate-x-[-50%]"
+                        )}
+                      >
                         <div className="flex items-start gap-4">
                           {/* Bullet point - aligned with first line of text */}
                           <div className="absolute left-[10px] top-[0.8125rem] z-10 flex-shrink-0" style={{ transform: 'translateX(-50%) translateY(-50%)' }}>
