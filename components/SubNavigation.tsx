@@ -133,7 +133,7 @@ export function SubNavigation({ items }: SubNavigationProps) {
     <nav className="sticky top-16 md:top-18 z-40 bg-white/99 backdrop-blur-lg border-b border-gray-200/80 shadow-md">
       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 overflow-x-auto py-3.5 scrollbar-hide">
+        <div className="flex items-center gap-2 overflow-x-auto py-3.5 scrollbar-hide px-1">
           {items.map((item) => (
             <a
               key={item.id}

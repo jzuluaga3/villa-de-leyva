@@ -315,8 +315,8 @@ export default function ThingsToDo() {
           </h1>
           <p className="text-xl text-text-secondary">
             {lang === 'es'
-              ? 'Restaurantes, actividades y atracciones cerca de la casa'
-              : 'Restaurants, activities, and attractions near the house'}
+              ? 'Restaurantes, Actividades y Atracciones cerca de la Casa'
+              : 'Restaurants, Activities, and Attractions near the House'}
           </p>
         </div>
       </section>

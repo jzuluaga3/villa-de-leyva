@@ -124,6 +124,26 @@ The site will be live at `https://your-project.vercel.app`
 - **Text Secondary**: `#767676` (medium gray)
 - **Borders**: `#EBEBEB` (light gray)
 
+## Content Style Guide
+
+### Subtitle Capitalization
+
+Since this is a family website, subtitles should use a casual, less formal tone with title case capitalization where important words are capitalized:
+
+- **Style**: Title case for important words, lowercase for articles and prepositions
+- **Tone**: Casual and friendly (family-oriented, not overly formal)
+- **Examples**:
+  - ✅ "Fotos de la Casa" (not "Fotos de la casa de alojamiento")
+  - ✅ "Photos of the House" (not "Photos of the accommodation")
+  - ✅ "Restaurantes, Actividades y Atracciones cerca de la Casa"
+  - ✅ "Restaurants, Activities, and Attractions near the House"
+
+**Guidelines**:
+- Capitalize important nouns (Casa, Casa, Restaurantes, Actividades, Atracciones)
+- Keep articles and prepositions lowercase (de, la, y, cerca)
+- Keep it short and casual for family readability
+- Apply this style consistently across all subtitles throughout the website
+
 ## License
 
 Private project for family use.

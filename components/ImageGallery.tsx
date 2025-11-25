@@ -60,8 +60,8 @@ export function ImageGallery() {
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
               {lang === 'es' 
-                ? 'Fotos de la casa de alojamiento'
-                : 'Photos of the accommodation'
+                ? 'Fotos de la Casa'
+                : 'Photos of the House'
               }
             </p>
           </div>
