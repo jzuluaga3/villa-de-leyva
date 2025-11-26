@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
@@ -51,10 +51,57 @@ export function ImageGallery() {
   const { lang } = useI18n();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [visibleImages, setVisibleImages] = useState<Set<number>>(new Set());
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Intersection Observer for lazy loading images on scroll
+  useEffect(() => {
+    // Load first 3 images immediately (likely above the fold)
+    const initialVisible = new Set<number>();
+    for (let i = 0; i < Math.min(3, galleryImages.length); i++) {
+      initialVisible.add(i);
+    }
+    setVisibleImages(initialVisible);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute('data-index'));
+            setVisibleImages((prev) => new Set(prev).add(index));
+            // Unobserve once loaded
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '50px', // Start loading 50px before image enters viewport
+        threshold: 0.1,
+      }
+    );
+
+    // Observe all gallery images (skip first 3 as they're already loaded)
+    imageRefs.current.forEach((ref, index) => {
+      if (ref && index >= 3) {
+        observer.observe(ref);
+      }
+    });
+
+    return () => {
+      imageRefs.current.forEach((ref) => {
+        if (ref) {
+          observer.unobserve(ref);
+        }
+      });
+    };
+  }, []);
 
   const openLightbox = (index: number) => {
     setSelectedImage(index);
     setLightboxIndex(index);
+    // Mark this image as visible if not already (for lightbox)
+    setVisibleImages((prev) => new Set(prev).add(index));
   };
 
   const closeLightbox = () => {
@@ -101,18 +148,27 @@ export function ImageGallery() {
             {galleryImages.map((image, index) => (
               <div
                 key={image}
+                ref={(el) => {
+                  imageRefs.current[index] = el;
+                }}
+                data-index={index}
                 className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
                 onClick={() => openLightbox(index)}
               >
-                <Image
-                  src={image}
-                  alt={lang === 'es' 
-                    ? `Casa Villa de Leyva ${index + 1}` 
-                    : `Villa de Leyva House ${index + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
+                {visibleImages.has(index) ? (
+                  <Image
+                    src={image}
+                    alt={lang === 'es' 
+                      ? `Casa Villa de Leyva ${index + 1}` 
+                      : `Villa de Leyva House ${index + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 animate-pulse" />
+                )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
