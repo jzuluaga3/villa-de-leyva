@@ -45,8 +45,8 @@ export function Itinerary() {
   const [expandedFlight, setExpandedFlight] = useState<string | null>(null);
 
   const rentalCarDetails: RentalCarDetails = {
-    vehicle: 'Chevrolet Traverse',
-    company: 'SIXT Rent a Car - Bogota Airport',
+    vehicle: 'Renault Stepway',
+    company: 'Rent a Car Andina',
     location: lang === 'es' 
       ? 'Bogotá El Dorado Aeropuerto' 
       : 'Bogotá El Dorado Airport',
@@ -77,13 +77,8 @@ export function Itinerary() {
             passengers: ['Juan David', 'Kelly', 'Cliff', 'Marcela'],
           },
         },
-        {
-          time: '10:45 AM',
-          description: lang === 'es' ? 'Aterrizaje y Carros' : 'Landing and Cars',
-          participants: lang === 'es' ? 'Recogemos carro y nos encontramos.' : 'Pick up car and meet up.',
-        },
         { 
-          time: '12:00 PM', 
+          time: '11:00 AM', 
           description: getTranslation(lang, 'rentalCarPickup'),
           rentalCar: rentalCarDetails,
         },
@@ -137,7 +132,13 @@ export function Itinerary() {
       subtitle: lang === 'es' ? '(Nochevieja)' : '(New Year\'s Eve)',
       events: [
         { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
-        { time: '8:00 PM', description: lang === 'es' ? 'Cena Familiar en la Casa' : 'Family Dinner at the House' },
+        { 
+          time: '8:00 PM', 
+          description: lang === 'es' ? 'Cena Familiar en la Casa' : 'Family Dinner at the House',
+          participants: lang === 'es' 
+            ? 'Plato Principal: Paella de Mariscos. Ingredientes: Camarón, Anillos de Calamar, Almeja Concha Blanca, Mejillones Negros, Filete de Robalo Fresco, Arroz Dona Pepa'
+            : 'Main Dish: Seafood Paella. Ingredients: Shrimp, Squid Rings, White Clam, Black Mussels, Fresh Snapper Fillet, Dona Pepa Rice',
+        },
         { time: '12:00 AM', description: lang === 'es' ? 'Celebración de Año Nuevo' : 'New Year\'s Celebration' },
       ],
     },
@@ -152,11 +153,11 @@ export function Itinerary() {
       date: lang === 'es' ? 'Viernes, 2 de Enero, 2026' : 'Friday, January 2, 2026',
       events: [
         { 
-          time: '12:00 PM', 
+          time: '11:00 AM', 
           description: getTranslation(lang, 'rentalCarDropoff'),
           rentalCar: rentalCarDetails,
         },
-        { time: '12:00 PM', description: lang === 'es' ? 'Check-out' : 'Check-out' },
+        { time: '11:00 AM', description: lang === 'es' ? 'Check-out' : 'Check-out' },
       ],
     },
     {
