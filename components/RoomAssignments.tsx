@@ -41,7 +41,6 @@ export function RoomAssignments() {
         lang === 'es' ? 'Cesar y Angelica' : 'Cesar & Angelica',
         'David Felipe',
         'Gabby',
-        lang === 'es' ? 'Abuelo David' : 'Grandfather David',
       ],
     },
     {
@@ -51,8 +50,8 @@ export function RoomAssignments() {
         { type: 'single', count: 1 },
       ],
       guests: [
-        lang === 'es' ? 'Cliff y Marcela' : 'Cliff & Marcela',
-        lang === 'es' ? 'Tia Obeida' : 'Aunt Obeida',
+        'Truman',
+        lang === 'es' ? 'Abuelo David' : 'Grandfather David',
       ],
     },
     {
@@ -71,8 +70,8 @@ export function RoomAssignments() {
         { type: 'single', count: 1 },
       ],
       guests: [
-        lang === 'es' ? 'Truman y Annie' : 'Truman & Annie',
-        lang === 'es' ? 'Mama de Annie' : 'Annie\'s Mom',
+        lang === 'es' ? 'Cliff y Marcela' : 'Cliff & Marcela',
+        lang === 'es' ? 'Tia Obeida' : 'Aunt Obeida',
       ],
     },
   ];
