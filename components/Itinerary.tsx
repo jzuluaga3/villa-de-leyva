@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, ChevronDown, ChevronUp, Car, MapPin, Plane, Route, Clock, Users, Building, Navigation, Home, UtensilsCrossed, Sparkles } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
@@ -43,7 +43,57 @@ export function Itinerary() {
   const { lang } = useI18n();
   const [expandedRental, setExpandedRental] = useState<string | null>(null);
   const [expandedFlight, setExpandedFlight] = useState<string | null>(null);
-
+  
+  // Parse date string to Date object for comparison
+  const parseDate = (dateString: string): Date | null => {
+    // Handle Spanish format: "Martes, 30 de Diciembre, 2025"
+    // Handle English format: "Tuesday, December 30, 2025"
+    const monthsEs: { [key: string]: string } = {
+      'enero': 'January', 'febrero': 'February', 'marzo': 'March',
+      'abril': 'April', 'mayo': 'May', 'junio': 'June',
+      'julio': 'July', 'agosto': 'August', 'septiembre': 'September',
+      'octubre': 'October', 'noviembre': 'November', 'diciembre': 'December'
+    };
+    
+    try {
+      // Try Spanish format first: "30 de Diciembre, 2025" or "30 de Diciembre 2025"
+      let match = dateString.match(/(\d{1,2})\s+de\s+(\w+)[,\s]+(\d{4})/i);
+      if (match) {
+        const day = parseInt(match[1], 10);
+        const monthNameEs = match[2].toLowerCase();
+        const year = parseInt(match[3], 10);
+        const monthName = monthsEs[monthNameEs] || monthNameEs;
+        const dateStr = `${monthName} ${day}, ${year}`;
+        return new Date(dateStr);
+      }
+      
+      // Try English format: "December 30, 2025"
+      match = dateString.match(/(\w+)\s+(\d{1,2}),\s+(\d{4})/i);
+      if (match) {
+        const monthName = match[1];
+        const day = parseInt(match[2], 10);
+        const year = parseInt(match[3], 10);
+        const dateStr = `${monthName} ${day}, ${year}`;
+        return new Date(dateStr);
+      }
+    } catch (e) {
+      console.error('Error parsing date:', e);
+    }
+    return null;
+  };
+  
+  // Check if a day has passed (before today)
+  const hasDayPassed = (dateString: string): boolean => {
+    const dayDate = parseDate(dateString);
+    if (!dayDate) return false;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dayDate.setHours(0, 0, 0, 0);
+    
+    return dayDate < today;
+  };
+  
   const rentalCarDetails: RentalCarDetails = {
     vehicle: 'Renault Stepway',
     company: 'Rent a Car Andina',
@@ -247,6 +297,35 @@ export function Itinerary() {
     
     return null;
   };
+  
+  // Initialize collapsed state for past days
+  const [collapsedDays, setCollapsedDays] = useState<Set<number>>(new Set());
+  const [initialized, setInitialized] = useState(false);
+  
+  useEffect(() => {
+    if (!initialized) {
+      const collapsed = new Set<number>();
+      itineraryItems.forEach((day, index) => {
+        if (hasDayPassed(day.date)) {
+          collapsed.add(index);
+        }
+      });
+      setCollapsedDays(collapsed);
+      setInitialized(true);
+    }
+  }, [lang, itineraryItems, initialized]); // Only initialize once
+  
+  const toggleDay = (index: number) => {
+    setCollapsedDays(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <section className="py-8 md:py-14 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 to-white">
@@ -263,21 +342,40 @@ export function Itinerary() {
               key={index}
               className="bg-white rounded-xl shadow-card hover:shadow-card-hover transition-all duration-300 p-4 md:p-10 border border-gray-200/60"
             >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <Calendar className="w-6 h-6 text-primary" />
+              <div className="flex items-center justify-between gap-4 mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Calendar className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-text-primary">{day.date}</h3>
+                    {day.subtitle && (
+                      <p className="text-sm text-text-secondary mt-1 font-medium">{day.subtitle}</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-text-primary">{day.date}</h3>
-                  {day.subtitle && (
-                    <p className="text-sm text-text-secondary mt-1 font-medium">{day.subtitle}</p>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleDay(index);
+                  }}
+                  className="flex items-center gap-2 px-3 py-2 text-text-secondary hover:text-primary transition-colors rounded-lg hover:bg-gray-50 cursor-pointer"
+                  aria-label={collapsedDays.has(index) ? (lang === 'es' ? 'Expandir' : 'Expand') : (lang === 'es' ? 'Colapsar' : 'Collapse')}
+                  type="button"
+                >
+                  {collapsedDays.has(index) ? (
+                    <ChevronDown className="w-5 h-5" />
+                  ) : (
+                    <ChevronUp className="w-5 h-5" />
                   )}
-                </div>
+                </button>
               </div>
 
-              <div className="relative pl-3 md:pl-6">
-                {/* Events with bullets */}
-                <div className="space-y-6 relative">
+              {!collapsedDays.has(index) && (
+                <div className="relative pl-3 md:pl-6">
+                  {/* Events with bullets */}
+                  <div className="space-y-6 relative">
                   {day.events.map((event, eventIndex) => {
                     const eventId = `${index}-${eventIndex}`;
                     const isRentalExpanded = expandedRental === eventId;
@@ -548,6 +646,7 @@ export function Itinerary() {
                   })}
                 </div>
               </div>
+              )}
             </div>
           ))}
         </div>
