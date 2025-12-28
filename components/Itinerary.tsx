@@ -152,6 +152,10 @@ export function Itinerary() {
     {
       date: lang === 'es' ? 'Viernes, 2 de Enero, 2026' : 'Friday, January 2, 2026',
       events: [
+        {
+          time: '6:00 AM',
+          description: lang === 'es' ? 'Salida para Regresar a Bogotá' : 'Leave to Return to Bogota',
+        },
         { 
           time: '11:00 AM', 
           description: getTranslation(lang, 'rentalCarDropoff'),
