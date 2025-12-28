@@ -24,12 +24,19 @@ interface FlightDetails {
   passengers?: string[];
 }
 
+interface LocationOption {
+  name: string;
+  mapsLink: string;
+}
+
 interface Event {
   time: string;
   description: string;
   participants?: string;
   rentalCar?: RentalCarDetails;
   flight?: FlightDetails;
+  mapsLink?: string;
+  locationOptions?: LocationOption[];
 }
 
 export function Itinerary() {
@@ -70,13 +77,59 @@ export function Itinerary() {
             passengers: ['Juan David', 'Kelly', 'Cliff', 'Marcela'],
           },
         },
+        {
+          time: '10:45 AM',
+          description: lang === 'es' ? 'Aterrizaje y Carros' : 'Landing and Cars',
+          participants: lang === 'es' ? 'Recogemos carro y nos encontramos.' : 'Pick up car and meet up.',
+        },
         { 
           time: '12:00 PM', 
           description: getTranslation(lang, 'rentalCarPickup'),
           rentalCar: rentalCarDetails,
         },
-        { time: '3:00 PM', description: lang === 'es' ? 'Check-in' : 'Check-in' },
-        { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
+        {
+          time: '1:00 PM',
+          description: lang === 'es' ? 'Almuerzo: El Tambor (Cajicá)' : 'Lunch: El Tambor (Cajicá)',
+          participants: lang === 'es' ? 'Almuerzo al aire libre.' : 'Outdoor lunch.',
+          mapsLink: 'https://www.google.com/maps/search/?api=1&query=El+Tambor+Cajicá',
+        },
+        {
+          time: '3:15 PM',
+          description: lang === 'es' ? 'Foto en el Sisga' : 'Photo at Sisga',
+          participants: lang === 'es' ? 'Parada para estirar piernas y foto en la represa.' : 'Stop to stretch legs and photo at the dam.',
+          mapsLink: 'https://www.google.com/maps/search/?api=1&query=Represa+del+Sisga',
+        },
+        {
+          time: '4:15 PM',
+          description: lang === 'es' ? 'Ventaquemada (Arepas)' : 'Ventaquemada (Arepas)',
+          participants: lang === 'es' ? 'Paramos 10 minutos a comprar arepas de choclo y queso para el camino.' : '10 minute stop to buy corn and cheese arepas for the road.',
+          locationOptions: [
+            {
+              name: 'Parador El Buen Gusto',
+              mapsLink: 'https://maps.app.goo.gl/T3NVTVXC2JWfLzAK6',
+            },
+            {
+              name: 'Restaurante Puerto Boyacense',
+              mapsLink: 'https://maps.app.goo.gl/gxkHeD6ztaDQkDXm7',
+            },
+          ],
+        },
+        {
+          time: '5:30 PM',
+          description: lang === 'es' ? 'Puente de Boyacá' : 'Puente de Boyacá',
+          participants: lang === 'es' ? 'Llegamos justo antes de que prendan las luces (6:00 PM) para ver el alumbrado.' : 'Arrive just before lights turn on (6:00 PM) to see the lighting.',
+          mapsLink: 'https://www.google.com/maps/search/?api=1&query=Puente+de+Boyacá',
+        },
+        {
+          time: '6:45 PM',
+          description: lang === 'es' ? 'Salida a Villa de Leyva' : 'Departure to Villa de Leyva',
+        },
+        {
+          time: '8:00 PM',
+          description: lang === 'es' ? 'Villa de Leyva' : 'Villa de Leyva',
+          participants: lang === 'es' ? 'Llegada a descansar. 🏡' : 'Arrival to rest. 🏡',
+        },
+        { time: '8:00 PM', description: lang === 'es' ? 'Check-in' : 'Check-in' },
       ],
     },
     {
@@ -165,6 +218,11 @@ export function Itinerary() {
     // Check-in / Check-out
     if (desc.includes('check-in') || desc.includes('check-out') || desc.includes('checkin') || desc.includes('checkout')) {
       return Home;
+    }
+    
+    // Lunch / Almuerzo
+    if (desc.includes('lunch') || desc.includes('almuerzo')) {
+      return UtensilsCrossed;
     }
     
     // Dinner / Cena
@@ -319,6 +377,33 @@ export function Itinerary() {
                                     <p className="text-sm text-text-secondary mt-1 ml-6 leading-relaxed">
                                       {event.participants}
                                     </p>
+                                  )}
+                                  {event.locationOptions && event.locationOptions.length > 0 && (
+                                    <div className="mt-2 ml-6 space-y-4 flex flex-col">
+                                      {event.locationOptions.map((option, optionIndex) => (
+                                        <a
+                                          key={optionIndex}
+                                          href={option.mapsLink}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="flex items-center gap-2 px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors w-fit"
+                                        >
+                                          <MapPin className="w-3 h-3" />
+                                          {option.name}
+                                        </a>
+                                      ))}
+                                    </div>
+                                  )}
+                                  {event.mapsLink && !event.locationOptions && (
+                                    <a
+                                      href={event.mapsLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors mt-2 ml-6 self-start"
+                                    >
+                                      <MapPin className="w-3 h-3" />
+                                      {getTranslation(lang, 'getDirections')}
+                                    </a>
                                   )}
                                 </div>
                               )}

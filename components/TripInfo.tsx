@@ -29,7 +29,17 @@ export function TripInfo() {
           <p className="text-xs uppercase tracking-wider font-semibold text-text-secondary mb-2">
             {getTranslation(lang, 'address')}
           </p>
-          <p className="text-lg text-text-primary font-medium">Villa de Leyva, Boyacá, Colombia</p>
+          <p className="text-lg text-text-primary font-medium mb-3">Villa de Leyva, Boyacá, Colombia</p>
+          <a
+            href="https://www.google.com/maps?q=5.654089,-73.507927"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+            aria-label={getTranslation(lang, 'getDirections')}
+          >
+            <MapPin className="w-4 h-4" />
+            {getTranslation(lang, 'getDirections')}
+          </a>
         </div>
 
         <div className="pt-2">

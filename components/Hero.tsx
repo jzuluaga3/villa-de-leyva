@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { MapPin } from 'lucide-react';
 import { useI18n } from '@/lib/i18n-context';
 import { getTranslation } from '@/lib/translations';
 
@@ -32,6 +33,18 @@ export function Hero() {
               : 'December 30, 2025 - January 2, 2026'
             }
           </p>
+          <div className="pt-4">
+            <a
+              href="https://www.google.com/maps?q=5.654089,-73.507927"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg text-base font-semibold hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl drop-shadow-lg"
+              aria-label={getTranslation(lang, 'getDirections')}
+            >
+              <MapPin className="w-5 h-5" />
+              {getTranslation(lang, 'getDirections')}
+            </a>
+          </div>
         </div>
       </div>
     </section>
