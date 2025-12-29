@@ -179,9 +179,36 @@ export function Itinerary() {
     },
     {
       date: lang === 'es' ? 'Miércoles, 31 de Diciembre, 2025' : 'Wednesday, December 31, 2025',
-      subtitle: lang === 'es' ? '(Nochevieja)' : '(New Year\'s Eve)',
+      subtitle: lang === 'es' ? '(Ráquira & Longaniza)' : '(Ráquira & Longaniza)',
       events: [
-        { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
+        {
+          time: '9:00 AM',
+          description: lang === 'es' ? 'Salimos a Ráquira' : 'Departure to Ráquira',
+          mapsLink: 'https://www.google.com/maps/search/?api=1&query=Ráquira+Boyacá',
+        },
+        {
+          time: '12:30 PM',
+          description: lang === 'es' ? 'Almuerzo en Sutamarchán' : 'Lunch in Sutamarchán',
+          locationOptions: [
+            {
+              name: 'La Fogita',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=La+Fogita+Sutamarchán',
+            },
+            {
+              name: 'Don Jorge',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Don+Jorge+Sutamarchán',
+            },
+          ],
+        },
+        {
+          time: '3:00 PM',
+          description: lang === 'es' 
+            ? 'Regreso a Villa de Leyva. Tarde suave: Museo del Chocolate, caminar la Plaza, iglesia y prepararnos para la noche de Año Nuevo'
+            : "Return to Villa de Leyva. Relaxing afternoon: Chocolate Museum, walk the Plaza, church and prepare for New Year's Eve",
+          participants: lang === 'es' 
+            ? 'Museo del Chocolate, caminar la Plaza Mayor, iglesia'
+            : 'Chocolate Museum, walk the Main Plaza, church',
+        },
         { 
           time: '8:00 PM', 
           description: lang === 'es' ? 'Cena Familiar en la Casa' : 'Family Dinner at the House',
@@ -189,14 +216,59 @@ export function Itinerary() {
             ? 'Plato Principal: Paella de Mariscos. Ingredientes: Camarón, Anillos de Calamar, Almeja Concha Blanca, Mejillones Negros, Filete de Robalo Fresco, Arroz Dona Pepa'
             : 'Main Dish: Seafood Paella. Ingredients: Shrimp, Squid Rings, White Clam, Black Mussels, Fresh Snapper Fillet, Dona Pepa Rice',
         },
-        { time: '12:00 AM', description: lang === 'es' ? 'Celebración de Año Nuevo' : 'New Year\'s Celebration' },
+        { time: '12:00 AM', description: lang === 'es' ? 'Celebración de Año Nuevo' : "New Year's Celebration" },
       ],
     },
     {
       date: lang === 'es' ? 'Jueves, 1 de Enero, 2026' : 'Thursday, January 1, 2026',
-      subtitle: lang === 'es' ? '(Día de Año Nuevo)' : '(New Year\'s Day)',
+      subtitle: lang === 'es' ? '(Aventura & Pueblitos)' : '(Adventure & Small Towns)',
       events: [
-        { time: '', description: lang === 'es' ? 'Abierto para Actividades' : 'Open for Activities' },
+        {
+          time: '10:00 AM',
+          description: lang === 'es' ? 'Plan Dividido' : 'Split Plan',
+          participants: lang === 'es'
+            ? 'Jóvenes: Cuatrimotos (Desierto + Pozos Azules) | Tranqui: Viñedo Ain Karim (Cata de vinos y paisaje) o Casa Terracota'
+            : 'Young: ATVs (Desert + Blue Pools) | Relaxed: Ain Karim Vineyard (Wine tasting and scenery) or Casa Terracota',
+          locationOptions: [
+            {
+              name: lang === 'es' ? 'Cuatrimotos - Desierto' : 'ATVs - Desert',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Desierto+de+la+Candelaria+Villa+de+Leyva',
+            },
+            {
+              name: lang === 'es' ? 'Pozos Azules' : 'Blue Pools',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Pozos+Azules+Villa+de+Leyva',
+            },
+            {
+              name: 'Viñedo Ain Karim',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Viñedo+Ain+Karim+Villa+de+Leyva',
+            },
+            {
+              name: 'Casa Terracota',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Casa+Terracota+Villa+de+Leyva',
+            },
+          ],
+        },
+        {
+          time: '1:30 PM',
+          description: lang === 'es' ? 'Almuerzo todos juntos' : 'Lunch all together',
+        },
+        {
+          time: '3:00 PM',
+          description: lang === 'es' ? 'Opción Pueblito' : 'Small Town Option',
+          participants: lang === 'es'
+            ? 'Opción A: Pueblito Boyacense en Duitama (~1h 20m de viaje) | Opción B (Relax): Quedarnos en la Plaza Mayor y descansando. Decidimos ese día basado en cómo todos se sienten.'
+            : 'Option A: Pueblito Boyacense in Duitama (~1h 20m drive) | Option B (Relax): Stay at the Main Plaza and rest. We decide that day based on how everyone feels.',
+          locationOptions: [
+            {
+              name: lang === 'es' ? 'Pueblito Boyacense - Duitama' : 'Pueblito Boyacense - Duitama',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Pueblito+Boyacense+Duitama',
+            },
+            {
+              name: lang === 'es' ? 'Plaza Mayor - Villa de Leyva' : 'Main Plaza - Villa de Leyva',
+              mapsLink: 'https://www.google.com/maps/search/?api=1&query=Plaza+Mayor+Villa+de+Leyva',
+            },
+          ],
+        },
       ],
     },
     {
